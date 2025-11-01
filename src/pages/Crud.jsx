@@ -2,11 +2,12 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import BtnAgregar from "../components/BtnAgregar";
 import BtnActualizar from "../components/BtnActualizar";
+import BtnSalir from "../components/BtnSalir";
 
 const Crud = () => {
   return (
     <div class="flex flex-col gap-6">
-      <Navbar />
+      <BtnSalir />
       <main class="container mx-auto px-6 py-8 bg-[#FEF7F2]">
         <div class="flex items-center justify-between mb-[24px] border-b border-red-200">
           <div class="w-[1504px] h-[44px]">
