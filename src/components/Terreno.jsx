@@ -1,27 +1,27 @@
 import { useEffect,useState } from "react";
-// import Datos from './Datos'
+import { listarPropiedades } from "../Services/ApiServices";
 
 const Terreno = () => {
   const [propiedades, setPropiedades] = useState([]);
+  const [loading,setLoading]=useState(true);
 
-  const ApiList = "http://localhost:8080/api/propiedades/listar";
-
-  async function obtenerUsuarios() {
-    try {
-      const respuesta = await fetch(ApiList);
-      const datos = await respuesta.json();
-      setPropiedades(datos);
-      console.log("prop",setPropiedades)
-      console.log(datos.length)
-      
-    } catch (error) {
-      console.error("❌ Error al obtener la API:", error);
-    }
-  }
-  // se ejecuta una sola vez cuando el componente se monta
   useEffect(() => {
-    obtenerUsuarios();
+    async function cargarPropiedades() {
+      try{
+        const datos=await listarPropiedades()
+        setPropiedades(datos);      
+        console.log("pro",datos)
+      }catch(error){
+        console.error(error)
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    cargarPropiedades()
   }, []);
+
+  if(loading) return <p>Cargando Propiedades.... </p>
 
 
   return (
@@ -181,8 +181,8 @@ const Terreno = () => {
       </section>
 
       <section class="sm:px-0 xl:gap-6 2xl:gap-5 md:px-0 ">
-        <p class="w-full pb-5">6 terrenos encontrados</p>
-
+        <p class="w-full pb-5">{propiedades.length} terrenos encontrados</p>
+        
         <div class="grid sm:grid-cols-1 md:grid-cols-2 xl:gap-6 gap-6 2xl:grid-cols-3 xl:grid-cols-3 2xl:gap-6 lg:grid-cols-2 lg:gap-6 md:gap-6 justify-center ">
           {propiedades.map((prop) => (
             <div
@@ -210,9 +210,6 @@ const Terreno = () => {
                     </span>
                   </div>
                   <div>
-                    {/* <p className=" text-sm">
-                  {prop.descripcion}
-                </p> */}
                     <p className="text-sm">
                       {prop.descripcion.length > 92
                         ? prop.descripcion.substring(0, 92) + "..."
@@ -264,26 +261,4 @@ const Terreno = () => {
 
 export default Terreno
 
-//   </section>
-//       <section id="Nosotros" class="bg-blue-400  h-full text-4xl p-5">
-//         <h2 class='text-center p-5 '>Nosotros</h2>
-//         <div class='flex p-10 justify-center items-center gap-10'>
-//             <img src="/public/img/depa.png" alt="" class='w-100 text-center' />
-//             <p class='p-2 text-base'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia libero voluptatibus voluptate nostrum recusandae! Laboriosam provident tempore ullam recusandae ex temporibus repudiandae hic sit, accusamus rem, quis necessitatibus exercitationem nobis! </p>
-//         </div>
-//       </section>
-//       <footer id="Contacto" class="w-full h-full bg-green-300 text-4xl">
-//         <h2 class='text-center p-5'>Contacto</h2>
-//         <div class='flex flex-col p-10 text-base'>
-//             <a href="">youtube</a>
-//             <a href="">Instagram</a>
-//             <a href="">Web</a>
-//             <a href="">Facebook</a>
 
-//         </div>
-//       </footer>
-//       <div class='h-6 bg-blue-900 text-center'>
-//         <p class='text-gray'>
-//             Desarrollado por: Kenyo D. Saenz - saenzkenyo@gmail.com
-//         </p>
-//       </div>
