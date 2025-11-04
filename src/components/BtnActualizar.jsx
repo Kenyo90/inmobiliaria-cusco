@@ -1,4 +1,5 @@
-import React from 'react'
+
+import React, { useState } from "react";
 import {
   Button,
   useDisclosure,
@@ -15,17 +16,59 @@ import {
   Textarea,
   NumberInput,
   NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   Select,
 } from "@chakra-ui/react";
-const BtnActualizar = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-  
+import { actualizarPropiedad } from "../Services/ApiServices";
+
+const BtnActualizar = ({ propiedad, onActualizado }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [formData, setFormData] = useState({ ...propiedad });
+  const [loading, setLoading] = useState(false);
+
+  // 🔄 Maneja cambios en los inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleNumberChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: parseFloat(value) || 0,
+    }));
+  };
+
+  // 🧩 Guardar cambios
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const response = await actualizarPropiedad(formData.id, formData);
+
+      if (response) {
+        alert("✅ Propiedad actualizada correctamente");
+        onClose();
+        if (onActualizado) onActualizado(); // 🔁 recarga lista
+      } else {
+        alert("❌ No se pudo actualizar la propiedad");
+      }
+    } catch (error) {
+      console.error("Error al actualizar:", error);
+      alert("Error al actualizar la propiedad");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <Button onClick={onOpen} class="bg-[#952C00] w-[20px] text-2xl flex justify-center flex-row gap-5 items-center ">
+      {/* Botón Editar */}
+      <Button
+        onClick={onOpen}
+        class="bg-[#952C00] w-[20px] text-2xl flex justify-center flex-row gap-5 items-center "
+      >
         <svg
           data-slot="icon"
           fill="none"
@@ -44,82 +87,125 @@ const BtnActualizar = () => {
         </svg>
       </Button>
 
-      <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+      {/* Modal */}
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
-        {/* ------Modal---- */}
-        <ModalContent>
-          <ModalHeader>Crear Nuevo Terreno</ModalHeader>
+        <ModalContent m={5} w={'448px'}>
+          <ModalHeader>Editar Propiedad</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <FormControl class="flex flex-col gap-1">
-              <FormLabel>Titulo</FormLabel>
-              <Input type="text" />
-              <FormLabel>Descripcion</FormLabel>
-              <Textarea placeholder="Descripcion..." />
-              <div class="flex flex-row gap-4">
-                <div>
-                  <FormLabel>Precio</FormLabel>
-                  <NumberInput>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </div>
-                <div>
-                  <FormLabel>Área</FormLabel>
-                  <NumberInput>
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                </div>
-              </div>
-              <div class="flex flex-row gap-4">
-                <div>
-                  <FormLabel>Ubicación</FormLabel>
-                  <Input type="text" />
-                </div>
-                <div>
-                  <FormLabel>Distrito</FormLabel>
-                  <Input type="text" />
-                </div>
-              </div>
-              <div class="flex flex-row gap-20">
-                <div>
-                  <FormLabel>Tipo</FormLabel>
-                  <Select placeholder="Residencial">
-                    {/* <option value="option1">Residencial</option> */}
-                    <option value="option2">Comercial</option>
-                    <option value="option3">Agricola</option>
-                    <option value="option3">Industrial</option>
-                  </Select>
-                </div>
-                <div>
-                  <FormLabel>Estado</FormLabel>
-                  <Select placeholder="Disponible">
-                    {/* <option value="option1">Disponible</option> */}
-                    <option value="option2">Reservado</option>
-                    <option value="option3">Vendido</option>
-                  </Select>
-                </div>
-              </div>
-              <FormLabel>File Imagen</FormLabel>
-              <Input type="file" />
-              <FormLabel>Caracteristicas</FormLabel>
-              <Input type="text" placeholder="Vistas panoramicas, agua, luz" />
-              {/* <FormHelperText>Vistas panoramicas, agua, luz</FormHelperText> */}
+
+          <ModalBody >
+            <FormControl mb={3}>
+              <FormLabel>Título</FormLabel>
+              <Input
+                name="titulo"
+                value={formData.titulo || ""}
+                onChange={handleChange}
+              />
+            </FormControl>
+
+            <FormControl mb={3}>
+              <FormLabel>Descripción</FormLabel>
+              <Textarea
+                name="descripcion"
+                value={formData.descripcion || ""}
+                onChange={handleChange}
+              />
+            </FormControl>
+
+            <div class="flex flex-row gap-4">
+              <FormControl mb={2}>
+                <FormLabel>Precio (USD)</FormLabel>
+                <NumberInput
+                  value={formData.precio || 0}
+                  onChange={(value) => handleNumberChange("precio", value)}
+                >
+                  <NumberInputField />
+                </NumberInput>
+              </FormControl>
+
+              <FormControl mb={2}>
+                <FormLabel>Área (m²)</FormLabel>
+                <NumberInput
+                  value={formData.metrosCuadrados || 0}
+                  onChange={(value) =>
+                    handleNumberChange("metrosCuadrados", value)
+                  }
+                >
+                  <NumberInputField />
+                </NumberInput>
+              </FormControl>
+            </div>
+
+            <div class="flex flex-row gap-4">
+              <FormControl mb={3}>
+                <FormLabel>Dirección</FormLabel>
+                <Input
+                  name="direccion"
+                  value={formData.direccion || ""}
+                  onChange={handleChange}
+                />
+              </FormControl>
+
+              <FormControl mb={3}>
+                <FormLabel>Distrito</FormLabel>
+                <Input
+                  name="distrito"
+                  value={formData.distrito || ""}
+                  onChange={handleChange}
+                />
+              </FormControl>
+            </div>
+
+            <div class="flex flex-row gap-4">
+              <FormControl mb={3}>
+                <FormLabel>Tipo</FormLabel>
+                <Select
+                  name="tipo"
+                  value={formData.tipo || ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="TERRENO_AGRICOLA">Agrícola</option>
+                  <option value="TERRENO_URBANO">Urbano</option>
+                  <option value="LOTIZACIÓN">Lotización</option>
+                </Select>
+              </FormControl>
+
+              <FormControl mb={3}>
+                <FormLabel>Estado</FormLabel>
+                <Select
+                  name="estado"
+                  value={formData.estado || ""}
+                  onChange={handleChange}
+                >
+                  <option value="">Seleccionar</option>
+                  <option value="DISPONIBLE">Disponible</option>
+                  <option value="RESERVADO">Reservado</option>
+                  <option value="VENDIDO">Vendido</option>
+                </Select>
+              </FormControl>
+            </div>
+
+            <FormControl mb={3}>
+              <FormLabel>Características</FormLabel>
+              <Input
+                name="servicios"
+                value={formData.servicios || ""}
+                onChange={handleChange}
+              />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button bgColor={"cial"} color={"black"} mr={3} onClick={onClose}>
+            <Button onClick={onClose} mr={3}>
               Cancelar
             </Button>
-            <Button variant="ghost" bgColor={"#952C00"} color={"white"}>
+            <Button
+              colorScheme="orange"
+              onClick={handleSubmit}
+              isLoading={loading}
+            >
               Guardar
             </Button>
           </ModalFooter>
@@ -127,6 +213,6 @@ const BtnActualizar = () => {
       </Modal>
     </>
   );
-}
+};
 
-export default BtnActualizar
+export default BtnActualizar;
