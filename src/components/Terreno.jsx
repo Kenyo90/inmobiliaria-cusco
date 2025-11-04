@@ -197,15 +197,17 @@ const Terreno = () => {
                     {prop.estado}
                   </span>
                   <img
-                    className="sm:w-full object-cover group-hover:scale-105 transition-transform duration-300 z-0  h-[192px] w-[382px] inset-0 text-transparent"
+                    class="sm:w-full object-cover group-hover:scale-105 transition-transform duration-300 z-0  h-[192px] w-[382px] inset-0 text-transparent"
                     src="/public/img/fondo.png"
-                    alt=""
+                    alt="Esperando una foto"
                   />
                 </div>
-                <div className="p-[16px] flex flex-col gap-6">
-                  <div className="flex gap-2 items-start justify-between">
-                    <h3 className="text-[64px]">{prop.titulo}</h3>
-                    <span className="py-0.3 inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground :hover:text-accent-foreground shrink-0">
+                <div class="p-[16px] flex flex-col gap-6">
+                  <div class="flex gap-4 items-center justify-between ">
+                    <h3 class="text-[64px] px-[5px] w-[245px]">{prop.titulo}</h3>
+                    <span class="inline-flex items-center text-[10px] px-[5px]  justify-center rounded-md py-0.5 text-xs text-black bg-yellow-200 "
+                        // style={{ minWidth: "100px" }}
+                        >
                       {prop.tipo}
                     </span>
                   </div>
@@ -227,8 +229,8 @@ const Terreno = () => {
                     </div>
                     <div className="flex gap-6">
                       <img
-                        className="w-3 text-xs"
-                        src="/public/img/arrow.png"
+                        className="w-5 text-xs"
+                        src="/public/img/Arrow-Arrow-expand.svg"
                         alt=""
                       />
                       <p className="">{prop.metrosCuadrados} m²</p>

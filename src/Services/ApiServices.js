@@ -1,6 +1,7 @@
 
 const API_URL = "http://localhost:8080/api/propiedades";
 
+// 🧩 GET - Listar propiedad
 export async function listarPropiedades() {
   try {
     const response = await fetch(`${API_URL}/listar`);
@@ -14,21 +15,62 @@ export async function listarPropiedades() {
   }
 }
 
-export async function obtenerPropiedadPorId(id) {
+
+
+// 🧩 PUT - Actualizar propiedad
+export async function actualizarPropiedad(id, data) {
   try {
     const token = localStorage.getItem("token");
-    const headers=token 
-    ? {"Authorization": `Bearer ${token}`} 
-    : {};
+    if (!token) throw new Error("No hay token disponible");
 
-    const response = await fetch(`${API_URL}/${id}`,{headers});
-    if (!response.ok) throw new Error("Error al obtener propiedad");
-    return await response.json();
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Error al actualizar (${response.status}): ${text}`);
+    }
+
+    return true;
   } catch (error) {
-    console.error(error);
+    console.error("Error en actualizarPropiedad:", error);
+    return false;
   }
 }
 
+// export async function actualizarPropiedad(id) {
+//   try {
+//     const token = localStorage.getItem("token");
+//     if (!token) throw new Error("No hay token disponible");
+
+//     const response = await fetch(`${API_URL}/${id}`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`,
+//       },
+//     });
+//     const text = await response.text(); // obtiene la respuesta como texto
+//     console.log("🔍 Backend response:", response.status, text);
+
+//     if (!response.ok) {
+//       throw new Error(`Error al Actualizar propiedad (${response.status}): ${text}`);
+//     }
+//     return true;
+//   } catch (error) {
+//     console.error("Error en actualizarPropiedad:", error);
+//     return false;
+//   }
+// }
+
+
+// 🧩 POST - Crear propiedad
 export async function crearPropiedad(data) {
   try {
     const token = localStorage.getItem("token");
@@ -40,7 +82,6 @@ export async function crearPropiedad(data) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // "Authorization": token,
         "Authorization": `Bearer ${token}`,
 
       },
@@ -61,7 +102,6 @@ export async function crearPropiedad(data) {
       const errorMessage = responseData?.message || `Error al crear propiedad (status ${response.status})`;
       throw new Error(errorMessage);
     }
-
     return responseData;
   } catch (error) {
     console.error("Error en crearPropiedad:", error);
@@ -69,36 +109,7 @@ export async function crearPropiedad(data) {
   }
 }
 
-
-
-// export async function crearPropiedad(data) {
-//   try {
-//     const token = localStorage.getItem("token");
-//     if (!token) throw new Error("No hay token disponible");
-
-//     const response = await fetch(`${API_URL}/crear`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//       body: JSON.stringify(data),
-//     });
-//     if (!response.ok) {
-//       let errorMessage = "Error al crear propiedad";
-//       try {
-//         const errorData = await response.json();
-//         errorMessage = errorData.message || JSON.stringify(errorData);
-//       } catch (e) {
-//         console.error("No se pudo parsear JSON del error:", e);
-//       }
-//       throw new Error(errorMessage);
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
+// 🧩 DELETE - Eliminar propiedad
 export async function eliminarPropiedad(id) {
   try {
     const token = localStorage.getItem("token");
