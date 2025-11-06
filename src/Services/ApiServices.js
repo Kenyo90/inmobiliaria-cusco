@@ -31,44 +31,16 @@ export async function actualizarPropiedad(id, data) {
       },
       body: JSON.stringify(data),
     });
-
     if (!response.ok) {
       const text = await response.text();
       throw new Error(`Error al actualizar (${response.status}): ${text}`);
     }
-
     return true;
   } catch (error) {
     console.error("Error en actualizarPropiedad:", error);
     return false;
   }
 }
-
-// export async function actualizarPropiedad(id) {
-//   try {
-//     const token = localStorage.getItem("token");
-//     if (!token) throw new Error("No hay token disponible");
-
-//     const response = await fetch(`${API_URL}/${id}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "Authorization": `Bearer ${token}`,
-//       },
-//     });
-//     const text = await response.text(); // obtiene la respuesta como texto
-//     console.log("🔍 Backend response:", response.status, text);
-
-//     if (!response.ok) {
-//       throw new Error(`Error al Actualizar propiedad (${response.status}): ${text}`);
-//     }
-//     return true;
-//   } catch (error) {
-//     console.error("Error en actualizarPropiedad:", error);
-//     return false;
-//   }
-// }
-
 
 // 🧩 POST - Crear propiedad
 export async function crearPropiedad(data) {
@@ -83,15 +55,11 @@ export async function crearPropiedad(data) {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
-
       },
       body: JSON.stringify(data),
-      
     });
-
     const text = await response.text();
     let responseData = {};
-
     try {
       responseData = text ? JSON.parse(text) : {}; // Si hay texto, intenta parsear
     } catch (err) {
@@ -129,7 +97,6 @@ export async function eliminarPropiedad(id) {
     if (!response.ok) {
       throw new Error(`Error al eliminar propiedad (${response.status}): ${text}`);
     }
-
     return true;
   } catch (error) {
     console.error("Error en eliminarPropiedad:", error);
