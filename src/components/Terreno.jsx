@@ -59,9 +59,10 @@ const Terreno = () => {
     return <p className="text-center p-8">Cargando propiedades...</p>;
 
   return (
-    <div class="grid gap-6 bg-[#FEF7F2] 2xl:w-[1440px] 2xl:grid-cols-[280px_1fr] 2xl:gap-6 xl:grid-cols-[280px_1fr] xl:px-0 lg:px-0  2xl:px-0 lg:grid-cols-[280px_1fr] md:grid-cols-1 sm:grid-cols-1 sm:px-5 md:w-[740px] sm:w-[590px] lg:w-full">
- 
-      <section class="sticky space-y-4 bg-card rounded-lg border md:px-0 sm:px-0 2xl:px-0 xl:px-0 w-full lg:px-0">
+    <div class="grid gap-6 bg-[#FEF7F2] 2xl:w-[1440px] 2xl:grid-cols-[280px_1fr] 2xl:gap-6 xl:grid-cols-[280px_1fr] xl:px-0 lg:px-0  2xl:px-0 lg:grid-cols-[280px_1fr] md:grid-cols-1 sm:grid-cols-1 sm:px-5 md:w-[740px] sm:w-[590px] lg:w-full lg:px-auto justify-center items-center">
+       {/*  
+       sticky space-y-4 bg-card rounded-lg border md:px-0 sm:px-0 2xl:px-0 xl:px-0 w-full lg:px-0*/}
+      <section class="w-full lg:sticky top-4 self-start h-fit bg-white p-0 rounded-lg shadow-md">
         <div class=" w-full md:w-[100%] sm:w-[100%] xs:w-[100%] 2xl:w-[280px] lg:w-[280px] bg-white rounded-xl border p-4 shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col gad-4 ">
           <div class="pb-4 text-lg">
             <h1>Filtros</h1>
@@ -187,7 +188,7 @@ const Terreno = () => {
           {propiedades.map((prop) => (
             <div
               key={prop.id}
-              class="bg-white h-[523px] w-[360px] 2xl:w-[365px] xl:w-[300px] lg:w-[330px]  md:w-[340px] bg-card text-card-foreground flex flex-col gap-3 py-6 rounded-xl border shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group sm:w-[100%]"
+              class="bg-white h-[523px] w-[360px] 2xl:w-[365px] xl:w-[300px] lg:w-[330px] md:w-[340px]  bg-card text-card-foreground flex flex-col gap-3 py-6 rounded-xl border shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group sm:w-[100%]"
             >
               <div className="flex gap-6 flex-col md:gap-3">
                 <div className="relative overflow-hidden h-40 bg-muted">
