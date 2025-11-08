@@ -19,12 +19,14 @@ import {
   NumberDecrementStepper,
   Select,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { crearPropiedad } from "../Services/ApiServices";
 import { jwtDecode } from "jwt-decode";
+import { useToast } from '@chakra-ui/react';
 
 const BtnAgregar = ({ onPropiedadCreada, className }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast()
 
   // --- States para inputs ---
   const [titulo, setTitulo] = useState("");
@@ -108,7 +110,14 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
     try {
       const nuevaPropiedad = await crearPropiedad(data, token);
-      alert("Propiedad creada correctamente");
+      // alert("Propiedad creada correctamente");
+      toast({
+        title: "Exitoso.",
+        description: "Propiedad creada correctamente",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
       // Limpiar campos
       setTitulo("");
@@ -132,7 +141,12 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
   return (
     <>
-      <Button onClick={onOpen} className={className} bgColor={"#952C00"} colorScheme='#952C00'>
+      <Button
+        onClick={onOpen}
+        className={className}
+        bgColor={"#952C00"}
+        colorScheme="#952C00"
+      >
         <span className="text-2xl"> + </span> Agregar terreno
       </Button>
 
@@ -247,7 +261,12 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
             <Button bgColor={"cial"} color={"black"} mr={3} onClick={onClose}>
               Cancelar
             </Button>
-            <Button bgColor={"#952C00"} colorScheme='#952C00' color={"white"} onClick={handleGuardar}>
+            <Button
+              bgColor={"#952C00"}
+              colorScheme="#952C00"
+              color={"white"}
+              onClick={handleGuardar}
+            >
               Guardar
             </Button>
           </ModalFooter>

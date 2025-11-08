@@ -1,22 +1,57 @@
-import React from 'react'
+import { Button } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
+// import { useToast } from '@chakra-ui/react'
+import { useToast, Box, Flex, Text } from "@chakra-ui/react";
 const BtnSalir = () => {
+    const toast = useToast()
     const navigate = useNavigate();
 
   const handleLogout = () => {
     // 🗑️ Eliminar token del localStorage
-    localStorage.removeItem("token");
+    
 
     // Mensaje opcional
-    alert("Sesión cerrada correctamente");
+    // alert("Sesión cerrada correctamente");
+    toast({
+      position: "top",
+      duration: null, // ❌ sin límite de tiempo (hasta que el usuario decida)
+      isClosable: false,
+      render: ({ onClose }) => (
+        <Box
+          color="white"
+          p={6}
+          bg="gray.800"
+          borderRadius="md"
+          boxShadow="lg"
+          textAlign="center"
+        >
+          <Text fontSize="lg" mb={4}>
+            ¿Seguro que quieres salir?
+          </Text>
+          <Flex justify="center" gap={4}>
+            <Button colorScheme="red" onClick={() => {
+              onClose();
+              localStorage.removeItem("token");
+              localStorage.removeItem("UsuarioID"); // cierra el toast
+              navigate("/");
+              console.log("✅ Usuario confirmó salir");
+              // aquí puedes poner navigate("/login") o tu lógica de logout
+            }}>
+              Sí, salir
+            </Button>
+            <Button colorScheme="green" variant="outline" onClick={onClose}>
+              Cancelar
+            </Button>
+          </Flex>
+        </Box>
+      ),
+    });
 
     // 🔁 Redirigir al login
-    navigate("/");
+    
   };
 
     
-
-
   return (
     <>
     <div class='bg-white  flex justify-center w-full h-[76px] px-10 rounded-md shadow-md 2xl:px-15 '>

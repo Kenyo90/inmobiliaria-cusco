@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   Button,
@@ -17,6 +16,7 @@ import {
   NumberInput,
   NumberInputField,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { actualizarPropiedad } from "../Services/ApiServices";
 
@@ -24,6 +24,7 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [formData, setFormData] = useState({ ...propiedad });
   const [loading, setLoading] = useState(false);
+  const toast=useToast()
 
   // 🔄 Maneja cambios en los inputs
   const handleChange = (e) => {
@@ -48,10 +49,12 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
       const response = await actualizarPropiedad(formData.id, formData);
 
       if (response) {
-        alert("✅ Propiedad actualizada correctamente");
+        // alert("✅ Propiedad actualizada correctamente");
+        toast({title: "Exitoso.",description: "Propiedad actualizada correctamente",status: "success",duration: 3000,isClosable: true,})
         onClose();
         if (onActualizado) onActualizado(); // 🔁 recarga lista
       } else {
+        // toast({title:"No se actualizo",description: "No se hizo ningun cambio",status: "info",duration: 2000,isClosable: true})
         alert("❌ No se pudo actualizar la propiedad");
       }
     } catch (error) {
