@@ -103,67 +103,6 @@ const Crud = () => {
   });
 };
 
-  // const handleDelete = async (id) => {
-  //   // const confirm = window.confirm("¿Estás seguro de eliminar esta propiedad?");
-  //   // if (!confirm) return;
-  //   const exito = await eliminarPropiedad(id);
-  //    toast({ duration: null, position: "top",
-  //       render: ({ onClose }) => (
-  //         <Box position="fixed" top="50%" left="50%" transform="translate(-50%, -50%)"
-  //           bg="#FEF7F2" color="#8A3A13" p={5} borderRadius="md"  textAlign="center" boxShadow="lg" >
-  //           <Text fontWeight="bold" mb={4}>
-  //             ¿Eliminar esta propiedad?
-  //           </Text>
-  //           <Flex justify="center" gap={3}>
-  //             <Button bg="#8A3A13" color="white" _hover={{ bg: "#6d2d0f" }} size="sm"
-  //               onClick={() => {
-  //                 onClose();
-  //                 if (exito) {
-  //                   setMensaje("✅ Propiedad eliminada correctamente");
-  //                   toast({
-  //                     title: "Exitoso.",
-  //                     description: `Propiedad eliminada correctamente ${id}`,
-  //                     status: "success",
-  //                     duration: 2000,
-  //                     isClosable: true,
-  //                   });
-  //                   cargarPropiedadesPage(); // 🔄 recargar la lista actualizada
-  //                 }
-  //                 // confirm(true);
-  //               }}>
-  //               Sí
-  //             </Button>
-              
-               
-  //             <Button
-  //               variant="outline"
-  //               borderColor="#8A3A13"
-  //               color="#8A3A13"
-  //               size="sm"
-  //               onClick={() => {
-  //                 onClose();
-  //                 // confirm(false);
-  //                 toast({title:"Error",description: `Propiedad no eliminada ${id}`, status:"error",duration: 2000,})                 
-                  
-  //               }}
-  //             >
-  //               No
-  //             </Button>
-  //           </Flex>
-  //         </Box>
-  //       ),
-  //     })
-    
-  //   // const exito = await eliminarPropiedad(id);
-  //   // if (exito) {
-  //   //   // setMensaje("✅ Propiedad eliminada correctamente");
-  //   //    toast({title: "Exitoso.",description: " Propiedad eliminada correctamente",status: "success",duration: 2000,isClosable: true,})
-  //   //   cargarPropiedadesPage(); // 🔄 recargar la lista actualizada
-  //   // } else {
-  //   //   setMensaje("❌ Error al eliminar propiedad");
-  //   // }
-  // };
-
   if (loading) return <p>Cargando propiedades...</p>;
 
   return (
