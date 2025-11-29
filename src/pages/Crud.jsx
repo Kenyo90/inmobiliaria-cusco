@@ -31,9 +31,9 @@ const Crud = () => {
     render: ({ onClose }) => (
       <Box
         position="fixed"
-        top="50%"
-        left="50%"
-        transform="translate(-50%, -50%)"
+        // top="50%"
+        // left="50%"
+        // transform="translate(-50%, -50%)"
         bg="#FEF7F2"
         color="#8A3A13"
         p={5}
