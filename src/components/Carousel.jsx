@@ -1,33 +1,32 @@
 import { Box, Image } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
-import './carousel.css'
-// import '../style.css'
 import 'swiper/css';
 import 'swiper/css/pagination';
-import img1 from '../../public/img/fondo.png';
-import img2 from '../../public/img/fondo1.png';
-import img3 from '../../public/img/fondo2.png';
 
-// Lista de imágenes
-const images = [img1, img2,img3
-];
-const Carousel = () => {
+const Carousel = ({ images = [] }) => {
+  // console.log("IMAGENES QUE RECIBE EL CARRUSEL:", selectedProp?.multimedia);
+  console.log("IMÁGENES QUE RECIBE EL CARRUSEL:", images);
+  
   return (
-    <Box>
+    <Box w="100%" overflow="hidden">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={10}
         slidesPerView={1}
         loop={true}
-        autoplay={{ delay: 5000 }}
+        autoplay={{ delay: 2000 }}
         pagination={{ clickable: true }}
+      //  navigation={true} 
       >
-        {images.map((src, index) => (
+        {images.map((src, index) => {
+        return(
           <SwiperSlide key={index}>
-            <Image h={'580px'} w={'99.9vw'} src={src} alt={`Slide ${index + 1}`} borderRadius="base" />
+            {/*  class='w-full h-fit' */}
+            <Image h="380px" w="100%" objectFit="cover" src={src} alt={`Slide ${index + 1}`} borderRadius="md" />
           </SwiperSlide>
-        ))}
+        )
+        })}
       </Swiper>
     </Box>
   );
