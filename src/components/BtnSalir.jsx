@@ -32,7 +32,8 @@ const BtnSalir = () => {
             <Button colorScheme="red" onClick={() => {
               onClose();
               localStorage.removeItem("token");
-              localStorage.removeItem("UsuarioID"); // cierra el toast
+              localStorage.removeItem("UsuarioID");
+              localStorage.removeItem("ID");
               navigate("/");
               console.log("✅ Usuario confirmó salir");
               // aquí puedes poner navigate("/login") o tu lógica de logout

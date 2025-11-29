@@ -24,6 +24,7 @@ const Crud = () => {
   // 🧩 Manejar eliminación
   const handleDelete = async (id) => {
   // Mostramos el toast de confirmación
+  localStorage.setItem("ID", id); // Guardar ID temporalmente
   toast({
     duration: null,
     position: "top",

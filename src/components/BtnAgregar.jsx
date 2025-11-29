@@ -1,32 +1,17 @@
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Select,
-} from "@chakra-ui/react";
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Select, } from "@chakra-ui/react";
 import { useState } from "react";
 import { crearPropiedad } from "../Services/ApiServices";
-import { jwtDecode } from "jwt-decode";
+// import { jwtDecode } from "jwt-decode";
 import { useToast } from '@chakra-ui/react';
+import { subirMultimedia } from "../hooks/useMultimedia";
 
 const BtnAgregar = ({ onPropiedadCreada, className }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast()
+  const toast = useToast();
+
+  //multimedia
+  const [archivo, setArchivo] = useState(null);
+  console.log("file:", archivo);
 
   // --- States para inputs ---
   const [titulo, setTitulo] = useState("");
@@ -67,31 +52,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
     const token = localStorage.getItem("token");
     const usuarioID = localStorage.getItem("UsuarioID");
-    console.log("ID:", usuarioID);
 
     if (!token) {
       alert("No hay token disponible. Por favor, inicia sesión nuevamente.");
-      return;
-    }
-
-    // 🔍 Intentar obtener ID de usuario desde localStorage o token
-    let usuarioId = localStorage.getItem("usuario");
-    // console.log("usuario ID:",usuarioId)
-
-    try {
-      const decoded = jwtDecode(token);
-      console.log("Token decodificado:", decoded);
-
-      // Si el backend guarda el id como "sub" o "id" en el token
-      if (!usuarioId) {
-        usuarioId = decoded.sub || decoded.id || decoded.userId;
-      }
-    } catch (err) {
-      console.warn("No se pudo decodificar el token:", err);
-    }
-
-    if (!usuarioId) {
-      alert("No se encontró el ID del usuario. Inicia sesión nuevamente.");
       return;
     }
 
@@ -105,19 +68,51 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
       tipo,
       estado,
       servicios,
-      usuario: { id: Number(usuarioID) }, // ✅ ahora siempre tendrás un id válido
+      usuario: { id: Number(usuarioID) },
     };
 
+    let propiedadCreada = null;
+
     try {
-      const nuevaPropiedad = await crearPropiedad(data, token);
-      // alert("Propiedad creada correctamente");
+      // ✅ Crear propiedad correctamente
+      propiedadCreada = await crearPropiedad(data, token);
+
       toast({
-        title: "Exitoso.",
-        description: "Propiedad creada correctamente",
+        title: "Propiedad creada",
+        description: "Se creó correctamente",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
+
+      // MULTIMEDIA
+      if (archivo) {
+        try {
+          // await subirMultimedia(archivo, "imagen", propiedadCreada.id);
+          const nuevaImagen = await subirMultimedia( archivo, "imagen", propiedadCreada.id);
+          propiedadCreada.multimedia = [
+            { url:nuevaImagen.archivo.url} ];
+          // onPropiedadCreada(propiedadCreada);
+          if (onPropiedadCreada) onPropiedadCreada(propiedadCreada);
+
+          toast({
+            title: "Imagen subida",
+            description: "La imagen se subió correctamente",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          });
+        } catch (error) {
+          console.error("Error subiendo multimedia:", error);
+          toast({
+            title: "Error al subir imagen",
+            description: "La propiedad se creó, pero la imagen falló",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+          });
+        }
+      }
 
       // Limpiar campos
       setTitulo("");
@@ -129,15 +124,25 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
       setTipo("");
       setEstado("");
       setServicios("");
+      setArchivo(null);
 
-      onClose(); // Cerrar modal
+      onClose();
 
-      if (onPropiedadCreada) onPropiedadCreada(nuevaPropiedad);
+      if (onPropiedadCreada) onPropiedadCreada(propiedadCreada);
     } catch (error) {
       console.error("Error al crear propiedad:", error);
-      alert("No se pudo crear la propiedad: " + (error.message || error));
+      toast({
+        title: "Error",
+        description: "No se pudo crear la propiedad",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
+    //  useEffect((handleGuardar) => {
+    //   listarPropiedades();
+    // }, []);
 
   return (
     <>
@@ -246,7 +251,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                 </div>
               </div>
               <FormLabel>File Imagen</FormLabel>
-              <Input type="file" />
+              <Input type="file"  onChange={(e)=> setArchivo(e.target.files[0])}/> //File multimedia
               <FormLabel>Características</FormLabel>
               <Input
                 type="text"
@@ -277,3 +282,114 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 };
 
 export default BtnAgregar;
+
+
+
+
+
+ // const handleGuardar = async () => {
+  //   if (!validarCampos()) return;
+
+  //   const token = localStorage.getItem("token");
+  //   const usuarioID = localStorage.getItem("UsuarioID");
+  //   console.log("ID:", usuarioID);
+
+  //   if (!token) {
+  //     alert("No hay token disponible. Por favor, inicia sesión nuevamente.");
+  //     return;
+  //   }
+
+  //   // Intentar obtener ID de usuario desde localStorage o token
+  //   let usuarioId = localStorage.getItem("usuario");
+  //   // console.log("usuario ID:",usuarioId)
+
+  //   try {
+  //     const decoded = jwtDecode(token);
+  //     console.log("Token decodificado:", decoded);
+
+  //     // Si el backend guarda el id como "sub" o "id" en el token
+  //     if (!usuarioId) {
+  //       usuarioId = decoded.sub || decoded.id || decoded.userId;
+  //     }
+  //   } catch (err) {
+  //     console.warn("No se pudo decodificar el token:", err);
+  //   }
+
+  //   if (!usuarioId) {
+  //     alert("No se encontró el ID del usuario. Inicia sesión nuevamente.");
+  //     return;
+  //   }
+
+  //   const data = {
+  //     titulo,
+  //     descripcion,
+  //     precio: Number(precio),
+  //     metrosCuadrados: Number(metrosCuadrados),
+  //     direccion,
+  //     distrito,
+  //     tipo,
+  //     estado,
+  //     servicios,
+  //     usuario: { id: Number(usuarioID) }, // ✅ ahora siempre tendrás un id válido
+  //   };
+
+  //   try {
+  //     const nuevaPropiedad = await crearPropiedad(token);
+  //     // alert("Propiedad creada correctamente");
+  //     toast({
+  //       title: "Exitoso.",
+  //       description: "Propiedad creada correctamente",
+  //       status: "success",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+
+  //     // Limpiar campos
+  //     setTitulo("");
+  //     setDescripcion("");
+  //     setPrecio("");
+  //     setMetrosCuadrados("");
+  //     setDireccion("");
+  //     setDistrito("");
+  //     setTipo("");
+  //     setEstado("");
+  //     setServicios("");
+
+  //     onClose(); // Cerrar modal
+
+  //     if (onPropiedadCreada) onPropiedadCreada(nuevaPropiedad);
+  //   } catch (error) {
+  //     console.error("Error al crear propiedad:", error);
+  //     alert("No se pudo crear la propiedad: " + (error.message || error));
+  //   }
+  //   //multimedia
+  //   const propiedadId = nuevaPropiedad.id;
+  //   const nuevaPropiedad = await subirMultimedia(archivo, "imagen", propiedadId);
+
+  //   console.log(nuevaPropiedad.id);
+
+  // //Si hay archivo seleccionado, subirlo
+  // if (archivo) {
+  //   try {
+  //     await subirMultimedia(archivo, "Imagen principal", nuevaPropiedad.id);
+    
+  //     toast({
+  //       title: "Imagen subida",
+  //       description: "La imagen se subió correctamente",
+  //       status: "success",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+  //   } catch (error) {
+  //     console.error("Error subiendo multimedia:", error);
+  //     toast({
+  //       title: "Error subiendo imagen",
+  //       description: "La propiedad se creó, pero la imagen falló",
+  //       status: "error",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+  //   }
+  // }
+    
+  // };

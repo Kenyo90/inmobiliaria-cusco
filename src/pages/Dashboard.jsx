@@ -46,38 +46,34 @@ const Dashboard = () => {
     }
   }
   return (
-    <>
-      <div className="flex justify-center">
-        <div className="w-100 h-full flex gap-5 flex-col p-15 justify-center bg-white shadow-md rounded-md">
-          <img
-            src="/public/img/logo.jpg"
-            alt="Logo"
-            className="w-30 self-center"
-          />
+    <div class='flex justify-center items-center h-screen bg-gradient-to-r from-amber-700 via-amber-600  to-amber-800 '>
+      <div class="flex justify-center items-center">
+        <div class="w-100 h-[100%] flex gap-5 flex-col py-15 px-5 justify-center bg-neutral-50 shadow-md rounded-md">
+          <img src="/public/img/logo.jpg" alt="Logo" class="w-30 self-center" />
           <form
             onSubmit={Login}
-            className="flex flex-col text-left px-2 py-5 gap-5 h-80"
+            class="flex flex-col text-left px-10 py-4 gap-5 h-fit justify-between"
           >
-            <div className="flex flex-col gap-3">
-              <label className="text-ms" htmlFor="email">
-                e-mail:
+            <div class="flex flex-col gap-3">
+              <label class="text-[15px] font-semibold" htmlFor="email">
+                Correo:
               </label>
               <input
                 id="email"
-                className="bg-green-200 rounded-md h-8 text-black"
+                class="bg-white rounded-lg !border-3 !border-amber-800 h-8 !px-2 "
                 placeholder="Ejemplo@gmail.com"
-                type="text"
+                type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="flex flex-col gap-3">
-              <label className="text-ms" htmlFor="password">
+            <div class="flex flex-col gap-3">
+              <label class="text-[15px] font-semibold" htmlFor="password">
                 Password:
               </label>
               <input
                 id="password"
-                className="bg-green-200 rounded-md h-8 text-black"
+                class="!bg-white rounded-md !border-3 !border-amber-800 h-8 !px-2 "
                 placeholder="********"
                 type="password"
                 value={password}
@@ -85,7 +81,7 @@ const Dashboard = () => {
               />
             </div>
             <button
-              className="shadow-md rounded-md h-9 bg-red-500"
+              class="shadow-md rounded-md h-9 !bg-red-800 !text-white font-semibold hover:!bg-red-700 transition-colors"
               type="submit"
             >
               Entrar
@@ -93,7 +89,7 @@ const Dashboard = () => {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
