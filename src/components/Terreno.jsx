@@ -273,29 +273,29 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                     />
                   </div>
                   <div class="p-[16px] flex flex-col gap-6 ">
-                    <div class="flex gap-2 items-start justify-between ">
-                      <h1 class="text-[15px] w-fit text-left">{prop.titulo}</h1>
-                      <span
-                        class="inline-flex items-start px-1 w-fit h-fit text-xs justify-center rounded-md py-0.5  text-black  outline-2 outline-amber-700/100 content-center"
+                    <div class="flex gap-1 items-start justify-between ">
+                      <h1 class="text-[15px] w-[150px] text-left lg:w-[150px] !xl:w-[150px] 2xl:w-[200px]">{prop.titulo}</h1>
+                      <p
+                        class="inline-flex !w-[90px] items-start px-1 h-fit text-xs justify-center rounded-md py-0.5  text-black  outline-2 outline-amber-700/100 content-center"
                         // style={{ minWidth: "100px" }} bg-yellow-100 text-black bg-amber-800
                       >
                         {prop.tipo === "TERRENO_AGRICOLA" && (
-                          <span class="text-[11px] xl:text-[10px] items-center w-fit">
+                          <p class="text-[11px]  items-center w-fit">
                             Terreno agrícola
-                          </span>
+                          </p>
                         )}
                         {prop.tipo === "TERRENO_URBANO" && (
-                          <span class="text-[11px] xl:text-[10px] w-fit items-center">
+                          <p class="text-[11px] xl:text-[10px] w-fit items-center">
                             Terreno urbano
-                          </span>
+                          </p>
                         )}
                         {prop.tipo === "LOTIZACIÓN" && (
-                          <span class="text-[11px] w-fit items-center">
+                          <p class="text-[11px] w-fit items-center">
                             {" "}
                             Lotización
-                          </span>
+                          </p>
                         )}
-                      </span>
+                      </p>
                     </div>
                     <div>
                       <p class="text-sm text-left">
@@ -455,8 +455,8 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                           </p>
                           <div class="flex flex-col">
                             <p class="text-[15px] text-zinc-400">Publicado</p>
-                            <p class="text-red-800 text-[18px] font-bold">
-                              Invalid Date
+                            <p class="text-black text-[18px] font-bold">
+                              {selectedProp.fechaPublicacion}
                             </p>
                           </div>
                         </div>
