@@ -305,10 +305,8 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                       </p>
                     </div>
                     <div class="flex gap-6 flex-col">
-                      <div class="w-5 h-5 flex gap-6">
+                      <div class="flex gap-6">
                         <img
-                          width="20"
-                          height="20"
                           class="w-5 h-5 text-xs"
                           src="/public/img/MapPin.svg"
                           alt=""
