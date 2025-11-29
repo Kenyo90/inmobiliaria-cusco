@@ -15,7 +15,7 @@ const Carousel = ({ images = [] }) => {
         spaceBetween={10}
         slidesPerView={1}
         loop={true}
-        autoplay={{ delay: 2000 }}
+        autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
       //  navigation={true} 
       >

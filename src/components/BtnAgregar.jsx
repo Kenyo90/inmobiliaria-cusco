@@ -234,7 +234,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                     <option value="">Seleccionar</option>
                     <option value="TERRENO_AGRICOLA">Agrícola</option>
                     <option value="TERRENO_URBANO">Urbano</option>
-                    <option value="LOTIZACION">Lotizacion</option>
+                    <option value="LOTIZACIÓN">Lotización</option>
                   </Select>
                 </div>
                 <div>
@@ -251,7 +251,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                 </div>
               </div>
               <FormLabel>File Imagen</FormLabel>
-              <Input type="file"  onChange={(e)=> setArchivo(e.target.files[0])}/> //File multimedia
+              <Input type="file"  onChange={(e)=> setArchivo(e.target.files[0])}/>
               <FormLabel>Características</FormLabel>
               <Input
                 type="text"
