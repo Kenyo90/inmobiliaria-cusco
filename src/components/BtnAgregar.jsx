@@ -157,7 +157,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent m={5}>
+        <ModalContent m={1}>
           <ModalHeader>Crear Nuevo Terreno</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -251,7 +251,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                 </div>
               </div>
               <FormLabel>File Imagen</FormLabel>
-              <Input type="file"  onChange={(e)=> setArchivo(e.target.files[0])}/> //File multimedia
+              <Input type="file" class='pb-2' onChange={(e)=> setArchivo(e.target.files[0])}/>
               <FormLabel>Características</FormLabel>
               <Input
                 type="text"
@@ -263,14 +263,10 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
           </ModalBody>
 
           <ModalFooter>
-            <Button bgColor={"cial"} color={"black"} mr={3} onClick={onClose}>
+            <Button bgColor={"cial"} color={"black"} mr={2} onClick={onClose}>
               Cancelar
             </Button>
-            <Button
-              bgColor={"#952C00"}
-              colorScheme="#952C00"
-              color={"white"}
-              onClick={handleGuardar}
+            <Button bgColor={"#952C00"} colorScheme="#952C00" color={"white"} onClick={handleGuardar}
             >
               Guardar
             </Button>

@@ -165,11 +165,11 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
         <ModalContent m={4} w={'448px'}>
-          <ModalHeader py={'10px'}>Editar Propiedad</ModalHeader>
+          <ModalHeader py={'5px'}>Editar Propiedad</ModalHeader>
           <ModalCloseButton />
 
           <ModalBody >
-            <FormControl mb={3}>
+            <FormControl mb={1}>
               <FormLabel>Título</FormLabel>
               <Input
                 name="titulo"
