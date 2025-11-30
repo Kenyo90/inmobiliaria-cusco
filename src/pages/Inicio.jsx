@@ -29,34 +29,18 @@ const Inicio = () => {
     const limpiarBusqueda = () => {
     updateFilter("busqueda", "");
   };
-  // Cambiar color del body según el tema
-  // useEffect(() => {
-  //   document.body.style.backgroundColor = tema === "claro" ? "#FEF7F2" : "#000000";
-  // }, [tema]);
 
-  // bg-[url(/public/img/fondo.png)] bg-cover bg-center bg-no-repeat h-fit overflow-y-hidden
   return (
     <div id="body" class="m-0 box-border text-base bg-[#FEF7F2] h-fit w-full ">
       <header class="justify-center flex items-center w-full 2xl:w-full xl:w-[100%] lg:w-[100%] md:w-[100%] sm:w-[100%]">
         <Navbar />
       </header>
-      <main id="Propiedades" class="flex justify-center bg-[#FEF7F2] h-fit">
-        <section class=" py-[32px] max-w-[1468px] h-[100%] bg-[#FEF7F2] my-auto flex justify-center flex-col xl:px-[64px] xl:mx-[20px] lg:px-[16px] lg:mx-[20px] 2xl:w-full 2xl:justify-center md:px-[35px] md:mx-[35px] md:items-center sm:px-[35px] sm:mx-[35px] 2xl:mx-auto">
+      <main
+        id="Propiedades"
+        class=" flex justify-center bg-[#FEF7F2] h-fit"
+      >
+        <section class="relative py-[32px] max-w-[1468px] h-[100%] bg-[#FEF7F2] my-auto flex justify-center flex-col xl:px-[64px] xl:mx-[20px] lg:px-[16px] lg:mx-[20px] 2xl:w-full 2xl:justify-center md:px-[35px] md:mx-[35px] md:items-center sm:px-[35px] sm:mx-[35px] 2xl:mx-auto">
           <div class="relative max-w-[100%] w-[400px] mx-auto max-h-[48px] flex justify-center py-1 mb-10 items-center 2xl:px-0  xl:w-[100%] xl:px-0 md:px-0 md:w-[100%] lg:w-full bg-[#FEF7F2] lg:px-0 2xl:w-full  sm:w-full">
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-10 w-10 text-[#8a3a13] mr-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
-              />
-            </svg> */}
             <input
               type="text"
               placeholder="Buscar por ubicación, distrito o características..."
@@ -65,11 +49,11 @@ const Inicio = () => {
               class="  file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-1 file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-md file:font-medium disabled:pointer-events-none  disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-[#8a3a13] focus-visible:ring-[#8a3a13]/50 focus-visible:ring-[5px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive !pl-5 !h-10 text-base"
             />
             {hayFiltrosBusqueda && (
-            // text-sm !text-black-500 font-thin w-fit !px-[10px] !py-[5px] hover:shadow-sm hover:rounded-xl hover:border !hover:bg-green-700 flex justify-between gap-2 items-center 
-            <button onClick={limpiarBusqueda} class="absolute right-[20px] ">
-              <AiOutlineClose />
-            </button>
-          )}
+              // text-sm !text-black-500 font-thin w-fit !px-[10px] !py-[5px] hover:shadow-sm hover:rounded-xl hover:border !hover:bg-green-700 flex justify-between gap-2 items-center
+              <button onClick={limpiarBusqueda} class="absolute right-[20px] ">
+                <AiOutlineClose />
+              </button>
+            )}
           </div>
           <Terreno
             filteredPropiedades={filteredPropiedades}
@@ -79,6 +63,16 @@ const Inicio = () => {
           <Formulario />
           <Footer />
         </section>
+        
+          <div class=" fixed  bottom-5 right-5 ">
+          {/* https://wa.me/+51962786293?text=Hola%20quiero%20contactame%20contigo */}
+          <a class="!hover:bg-amber-400" href="https://wa.me/+51962786293" target="_blank">
+            <img class="w-13 hover:w-15 transition-all duration-200"
+              src="../../public/img/whatsapp.png" alt="" />
+          </a>
+          </div>
+        
+      
       </main>
     </div>
   );
@@ -137,3 +131,17 @@ export default Inicio;
 // };
 
 // export default Inicio;
+ {/* <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-10 w-10 text-[#8a3a13] mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"
+              />
+            </svg> */}
