@@ -263,8 +263,22 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
               >
                 <div class="flex gap-6 flex-col md:gap-3 ">
                   <div class="relative overflow-hidden h-40 bg-muted">
-                    <span class="absolute py-0.1 left-70 top-1 inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&]:hover:bg-primary/90 bg-white/90 z-10 text-foreground md:left-3 sm:left-3 2xl:left-3 lg:left-3 xl:left-3">
-                      {prop.estado}
+                    <span class="absolute left-70 top-1 inline-flex items-center justify-center rounded-md border text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&]:hover:bg-primary/90 z-10 text-foreground md:left-3 sm:left-3 2xl:left-3 lg:left-3 xl:left-3">
+                      {prop.estado === "DISPONIBLE" && (
+                          <p class="text-[11px] text-white py-0.5 px-2 items-center w-fit bg-green-700">
+                            DISPONIBLE  
+                          </p>
+                        )}
+                        {prop.estado === "RESERVADO" && (
+                          <p class="text-[11px] py-0.5 px-2 text-white items-center w-fit bg-yellow-600">
+                            RESERVADO
+                          </p>
+                        )}
+                        {prop.estado === "VENDIDO" && (
+                          <p class="text-[11px] py-0.5 px-2 text-white items-center w-fit bg-red-700">
+                            VENDIDO
+                          </p>
+                        )}
                     </span>
                     <img
                       class="sm:w-full object-cover group-hover:scale-105 transition-transform duration-300 z-0  h-[192px] w-[382px] inset-0 text-transparent sm:h-full "
