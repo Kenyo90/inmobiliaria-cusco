@@ -7,8 +7,9 @@ const Navbar = () => {
   console.log("Tema en Navbar:", tema);
 
   return (
-    <div class="bg-white flex justify-center w-full h-[76px] px-10 rounded-md shadow-md 2xl:px-15">
-      <div class="flex justify-between h-[76px] items-center w-[1468px] bg-white gap-10 p-[16px]">
+    <div class="bg-white flex justify-center w-full px-[30px] h-[76px] 2xl:px-10 sm:px-[60px] md:px-[32px]">
+      {/* rounded-md shadow-md */}
+      <div class="flex justify-between h-[76px] px-0 items-center w-[1468px] bg-white gap-10 p-[16px] 2xl:px-[64px] xl:px-[60px] lg:px-[10px] md:px-[32px] sm:px-0">
 
         {/* LOGO */}
         <div class="flex gap-2 h-15 text-left w-6x1 justify-between content-center items-center">
