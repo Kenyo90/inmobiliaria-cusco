@@ -161,10 +161,24 @@ const Crud = () => {
                      <td class="text-left p-2 h-[52px] text-[14px]">USD {prop.precio}</td>
                      <td class="text-left p-2 h-[52px] text-[14px]">
                        <span
-                         class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs  bg-[#952C00]  text-white"
-                         style={{ minWidth: "90px" }}
-                       >
-                         {prop.estado}
+                         class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs "
+                        //   bg-[#952C00]  text-white
+                         style={{ minWidth: "90px" }}>
+                         {prop.estado === "DISPONIBLE" && (
+                          <p class="text-[11px] text-white py-0.5 px-2 items-center w-fit bg-green-700 rounded-md  border">
+                            DISPONIBLE  
+                          </p>
+                        )}
+                        {prop.estado === "RESERVADO" && (
+                          <p class="text-[11px] py-0.5 px-2 text-white items-center w-fit bg-yellow-600 rounded-md border">
+                            RESERVADO
+                          </p>
+                        )}
+                        {prop.estado === "VENDIDO" && (
+                          <p class="text-[11px] py-0.5 px-2 text-white items-center w-fit bg-red-700 rounded-md border">
+                            VENDIDO
+                          </p>
+                        )}
                        </span>
                      </td>
                      <td class="p-2 text-center">
