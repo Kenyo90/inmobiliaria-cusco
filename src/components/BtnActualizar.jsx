@@ -1,23 +1,9 @@
 import React, { useState } from "react";
 import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  NumberInput,
-  NumberInputField,
-  Select,
-  useToast,
-} from "@chakra-ui/react";
+  Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader,
+  ModalFooter, ModalBody, ModalCloseButton, FormControl,
+  FormLabel, Input, Textarea, NumberInput, NumberInputField,
+  Select, useToast, } from "@chakra-ui/react";
 import { actualizarPropiedad } from "../Services/ApiServices";
 import { subirMultimedia } from "../hooks/useMultimedia";
 
