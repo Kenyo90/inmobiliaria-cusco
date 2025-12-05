@@ -24,9 +24,7 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
   const [totalPages, setTotalPages] = useState(0);
 
   console.log(setSize, setDirection);
-  // const { filteredPropiedades,filters, updateFilter  } = usePropiedadesFilter(propiedades);
-  // const { filteredPropiedades } = usePropiedadesFilter(propiedades, filters);
-  // const hayFiltrosActivos = Object.values(filters).some(value => value !== "");
+
   const hayFiltrosActivos = Object.entries(filters).some(([key, value]) => key !== 'busqueda' && value !== "");
 
 

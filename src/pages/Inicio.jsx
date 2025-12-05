@@ -71,8 +71,6 @@ const Inicio = () => {
               src="../../public/img/whatsapp.png" alt="" />
           </a>
           </div>
-        
-      
       </main>
     </div>
   );
