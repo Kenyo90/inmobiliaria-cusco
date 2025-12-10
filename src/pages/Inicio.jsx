@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import Terreno from "../components/Terreno";
 import { usePropiedadesFilter } from "../hooks/usePropiedadesFilter";
 import axios from "axios";
+import BtnSalir from "../components/BtnSalir";
 
 const Inicio = () => {
   const [propiedades, setPropiedades] = useState([]);
@@ -33,7 +34,7 @@ const Inicio = () => {
   return (
     <div id="body" class="m-0 box-border text-base bg-[#FEF7F2] h-fit w-full ">
       <header class="justify-center flex items-center w-full 2xl:w-full xl:w-[100%] lg:w-[100%] md:w-[100%] sm:w-[100%] ">
-        <Navbar />
+        <Navbar/>
       </header>
       <main
         id="Propiedades"
