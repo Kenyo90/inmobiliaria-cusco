@@ -108,10 +108,10 @@ const Crud = () => {
         </TabList>
         <TabPanels class="w-fit">
           <TabPanel>
-            <main class="mx-auto px-6 py-8 bg-[#FEF7F2]">
+            <Box as="main" class="mx-auto px-6 py-8 !bg-[#FEF7F2]">
               <div class="flex items-center justify-between mb-6 border-b border-red-200">
                 <div class="text-[25px]">
-                  <h1 class="text-[25px] font-bold">
+                  <h1 textColor={'black'} class="text-[25px] font-bold">
                     Panel de Administración de Terrenos
                   </h1>
                   <p class="text-gray-400 text-[15px]">
@@ -121,32 +121,32 @@ const Crud = () => {
 
                 <BtnAgregar
                   onPropiedadCreada={cargarPropiedadesPage}
-                  class="inline-flex items-center w-[190px] px-4 py-2 justify-center bg-[#952C00] rounded-md text-white hover:bg-[#7a2200] transition-colors"
+                  class="inline-flex items-center w-[190px] px-4 py-2 justify-center bg-[#952C00] rounded-md text-white hover:bg-[#7a2200] transition-colors "
                 />
               </div>
 
               <table class=" w-full caption-bottom text-sm border-collapse md:border-separate md:rounded-lg overflow-hidden ">
                 <thead class='!border-1 !border-black !rounded-lg'>
                   <tr class="text-foreground text-center font-medium whitespace-nowrap h-[40px] bg-[#dac6be] ">
-                    <th class="w-[250px] text-left text-[14px] px-5 border border-gray-300 ">
+                    <th class="w-[250px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Título
                     </th>
-                    <th class="w-[300px] text-left text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[300px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Ubicación
                     </th>
-                    <th class="w-[151px] text-left text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[151px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Tipo
                     </th>
-                    <th class="w-[111px] text-left text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[111px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Área
                     </th>
-                    <th class="w-[160px] text-left text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[160px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Precio
                     </th>
-                    <th class="w-[144px] text-left text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[144px] text-left text-[14px] px-5 border border-gray-300 text-black ">
                       Estado
                     </th>
-                    <th class="w-[146px] text-right text-[14px] px-5 border border-gray-300  ">
+                    <th class="w-[146px] text-right text-[14px] px-5 border border-gray-300 text-black ">
                       Acciones
                     </th>
                   </tr>
@@ -156,28 +156,28 @@ const Crud = () => {
                   {propiedades.length > 0 ? (
                     propiedades.map((prop) => (
                       <tr key={prop.id}
-                        class="hover:bg-muted/50 border-b transition-colors !border-1 !border-black">
-                        <td class="p-2 flex text-left items-center whitespace-nowrap h-[52px] max-w-[250px] truncate text-[14px] ">
+                        class="hover:bg-muted/50 border-b transition-colors !border-1 !border-black ">
+                        <Box as='td' class="p-2 flex text-left items-center whitespace-nowrap h-[52px] max-w-[250px] truncate text-[14px] text-black" className="p-2">
                           {prop.titulo}
-                        </td>
-                        <td class="text-left p-2 h-[52px] text-[14px] ">
+                        </Box>
+                        <Box as='td' class="text-left p-2 h-[52px] text-[14px] text-black">
                           {prop.direccion}
-                        </td>
-                        <td class="text-left p-2 h-[52px] text-[14px] ">
-                          <span
+                        </Box>
+                        <Box as='td' class="text-left p-2 h-[52px] text-[14px] ">
+                          <Box as='span'
                             class="inline-flex items-center justify-center rounded-md px-2 py-0.5 text-xs text-black "
                             style={{ minWidth: "90px" }}
                           >
                             {prop.tipo}
-                          </span>
-                        </td>
-                        <td class="text-left p-2 h-[52px] text-[14px]">
+                          </Box>
+                        </Box>
+                        <Box as='td' class="text-left p-2 h-[52px] text-[14px] text-black">
                           {prop.metrosCuadrados} m²
-                        </td>
-                        <td class="text-left p-2 h-[52px] text-[14px]">
+                        </Box>
+                        <Box as='td' class="text-left p-2 h-[52px] text-[14px] text-black">
                           USD {prop.precio}
-                        </td>
-                        <td class="text-left p-2 h-[52px] text-[14px]">
+                        </Box>
+                        <td class="text-left p-2 h-[52px] text-[14px] text-black ">
                           <span
                             class="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs "
                             //   bg-[#952C00]  text-white
@@ -200,8 +200,8 @@ const Crud = () => {
                             )}
                           </span>
                         </td>
-                        <td class="p-2 text-center">
-                          <div class="flex justify-center gap-4 items-center ">
+                        <td class="p-0 text-center">
+                          <div class="flex justify-center gap-4 items-center text-black">
                             {/* 🧩 Botón Editar */}
                             <BtnActualizar
                               propiedad={prop}
@@ -211,7 +211,7 @@ const Crud = () => {
                             {/* 🧩 Botón Eliminar */}
                             <button
                               onClick={() => handleDelete(prop.id)}
-                              class="bg-red-500 text-white p-2 rounded-sm hover:bg-red-600 transition-colors duration-200"
+                              class="bg-red text-white p-2 rounded-sm hover:bg-red-600 transition-colors duration-200 bg-[#FEF7F2] cursor-pointer"
                               title="Eliminar propiedad"
                             >
                               <svg
@@ -276,7 +276,7 @@ const Crud = () => {
                   Siguiente
                 </button>
               </div>
-            </main>
+            </Box>
           </TabPanel>
           <TabPanel>
             <TabUsuario />

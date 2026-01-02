@@ -1,20 +1,34 @@
 import React, { useState } from "react";
-import {
-  Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader,
-  ModalFooter, ModalBody, ModalCloseButton, FormControl,
-  FormLabel, Input, Textarea, NumberInput, NumberInputField,
-  Select, useToast, } from "@chakra-ui/react";
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, NumberInput, NumberInputField, Select, useToast, Flex, Box, } from "@chakra-ui/react";
 import { actualizarPropiedad } from "../Services/ApiServices";
 import { subirMultimedia } from "../hooks/useMultimedia";
+import { AiOutlineClose } from "react-icons/ai";
+import { useColorMode } from "@chakra-ui/react";
+import Carousel from "../components/Carousel"; // ajusta la ruta
+import axios from "axios";
 
-const BtnActualizar = ({ propiedad, onActualizado }) => {
+const BtnActualizar = ({ propiedad, onActualizado}) => {
+  // const images=<Carousel images={propiedad.multimedia}/>
+  console.log("PROPIEDAD EN BTN ACTUALIZAR Cantidad:", propiedad.multimedia.length);
+  console.log("PROPIEDAD EN BTN ACTUALIZAR:", propiedad.multimedia);
+  console.log("PROPIEDAD EN BTN ACTUALIZAR ID:", propiedad.multimedia[0]?.id);
+  const { colorMode } = useColorMode();
+  
+  const fondo = colorMode === "light"
+    ? "bg-[#FEF7F2] text-black"
+    : "bg-white text-black";
   //Subir archivo
   const [archivo, setArchivo] = useState([]); //-file
-
+  // const [imag, setImag] = useState(propiedad.multimedia || []);
+  // console.log("", imag)
+  // const [imagenesExistentes,setImagenesExistentes]=useState([propiedad.multimedia || []]);
+  // const [imagenesEliminar,setImagenesEliminar]=useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isOpenImg, onOpen: onOpenImg, onClose: onCloseImg, } = useDisclosure();
   const [formData, setFormData] = useState({ ...propiedad });
   const [loading, setLoading] = useState(false);
-  const toast=useToast()
+  const toast = useToast();
+  const [imagenes, setImagenes] = useState(propiedad.multimedia || []);
 
   // 🔄 Maneja cambios en los inputs
   const handleChange = (e) => {
@@ -33,12 +47,94 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
   };
 
   // 🧩 Guardar cambios
+  // const handleSubmit = async () => {
+  //   try {
+  //     setLoading(true);
+      
+  //     // 1️⃣ Actualizar la propiedad
+  //     const response = await actualizarPropiedad(formData.id, formData);
+
+  //     if (!response) {
+  //       toast({
+  //         title: "Error",
+  //         description: "No se pudo actualizar la propiedad",
+  //         status: "error",
+  //         duration: 3000,
+  //         isClosable: true,
+  //       });
+  //       return;
+  //     }
+  //     // 2️⃣ Si hay imagen seleccionada, subirla
+  //     if (archivo.length > 0) {
+  //       try {
+  //         const imagenesSubidas = [];
+
+  //         for (const img of archivo) {
+  //           const nuevaImagen = await subirMultimedia(
+  //             img,
+  //             "imagen",
+  //             formData.id
+  //           );
+  //           imagenesSubidas.push({ url: nuevaImagen.archivo.url });
+  //         }
+
+  //         toast({
+  //           title: "Imágenes subidas",
+  //           description: "Todas las imágenes fueron subidas correctamente",
+  //           status: "success",
+  //           duration: 3000,
+  //           isClosable: true,
+  //         });
+
+  //         console.log("Imágenes subidas:", imagenesSubidas);
+  //       } catch (error) {
+  //         console.error("Error subiendo multimedia:", error);
+  //         toast({
+  //           title: "Error al subir imágenes",
+  //           description:
+  //             "La propiedad se actualizó, pero algunas imágenes fallaron",
+  //           status: "error",
+  //           duration: 3000,
+  //           isClosable: true,
+  //         });
+  //       }
+  //     }
+
+  //     toast({
+  //       title: "Propiedad actualizada",
+  //       description: "Los datos fueron guardados correctamente",
+  //       status: "success",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+
+  //     onClose();
+  //     if (onActualizado) onActualizado();
+  //   } catch (error) {
+  //     console.error("Error al actualizar:", error);
+  //     toast({
+  //       title: "Error",
+  //       description: "No se pudo actualizar la propiedad",
+  //       status: "error",
+  //       duration: 3000,
+  //       isClosable: true,
+  //     });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
   const handleSubmit = async () => {
   try {
     setLoading(true);
 
-    // 1️⃣ Actualizar la propiedad
-    const response = await actualizarPropiedad(formData.id, formData);
+    // 👉 1️⃣ Actualizar la propiedad CON las imágenes actuales
+    const dataActualizada = {
+      ...formData,
+      multimedia: imagenes, // 🔥 CLAVE: imágenes después de eliminar
+    };
+
+    const response = await actualizarPropiedad(formData.id, dataActualizada);
 
     if (!response) {
       toast({
@@ -50,37 +146,33 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
       });
       return;
     }
-    // 2️⃣ Si hay imagen seleccionada, subirla
+
+    // 👉 2️⃣ Subir imágenes nuevas (archivo)
     if (archivo.length > 0) {
-  try {
-    const imagenesSubidas = [];
+      try {
+        for (const img of archivo) {
+          await subirMultimedia(img, "imagen", formData.id);
+        }
 
-    for (const img of archivo) {
-      const nuevaImagen = await subirMultimedia(img, "imagen", formData.id);
-      imagenesSubidas.push({ url: nuevaImagen.archivo.url });
+        toast({
+          title: "Imágenes subidas",
+          description: "Todas las imágenes fueron subidas correctamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      } catch (error) {
+        console.error("Error subiendo multimedia:", error);
+        toast({
+          title: "Error al subir imágenes",
+          description:
+            "La propiedad se actualizó, pero algunas imágenes fallaron",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
     }
-
-    toast({
-      title: "Imágenes subidas",
-      description: "Todas las imágenes fueron subidas correctamente",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-
-    console.log("Imágenes subidas:", imagenesSubidas);
-
-  } catch (error) {
-    console.error("Error subiendo multimedia:", error);
-    toast({
-      title: "Error al subir imágenes",
-      description: "La propiedad se actualizó, pero algunas imágenes fallaron",
-      status: "error",
-      duration: 3000,
-      isClosable: true,
-    });
-  }
-}
 
     toast({
       title: "Propiedad actualizada",
@@ -90,6 +182,7 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
       isClosable: true,
     });
 
+    setArchivo([]); // limpiar archivos seleccionados
     onClose();
     if (onActualizado) onActualizado();
 
@@ -107,23 +200,45 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
   }
 };
 
+// Elimina imágenes nuevas (del estado archivo)
+const removeImagenNueva = (index) => {
+  setArchivo((prev) => prev.filter((_, i) => i !== index));
+};
+
+  const removeImagenExistente = async (id) => {
+  try {
+    const token = localStorage.getItem("token"); // JWT válido
+    await axios.delete("http://localhost:8080/api/multimedia/eliminar", {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { multimediaIds: [id] } // 👈 enviar como lista
+    });
+    setImagenes(prev => prev.filter(img => img.id !== id));
+  } catch (error) {
+    console.error("Error eliminando la imagen:", error.response?.data || error.message);
+  }
+};
 
   return (
-    <>
+    <Box as="div" color={"black"} bgColor={"none"}>
       {/* Botón Editar */}
-      <Button
+      <button
+        bg={"#FEF7F2"}
+        p-5
+        color={"black"}
+        cursor={"pointer"}
         onClick={onOpen}
-        class="bg-[#952C00] w-[20px] text-2xl flex justify-center flex-row gap-5 items-center "
+        // class="bg-[#FEF7F2] cursor-pointer shadow-sm shadow-black"
+        // class="bg-[#952C00] w-[20px] text-2xl flex justify-center flex-row gap-5 items-center"
       >
         <svg
           data-slot="icon"
           fill="none"
-          stroke-width="1.5"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+          stroke-width="1.8"
+          stroke="green"
+          viewBox="0 0 25 25"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
-          class="w-5 h-5"
+          class="w-5 h-5 "
         >
           <path
             stroke-linecap="round"
@@ -131,12 +246,12 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
           ></path>
         </svg>
-      </Button>
+      </button>
 
       {/* Modal */}
       <Modal isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay />
-        <ModalContent m={4} w={"448px"}>
+        <ModalContent m={"auto"} w={"448px"}>
           <ModalHeader py={"5px"}>Editar Propiedad</ModalHeader>
           <ModalCloseButton />
 
@@ -234,17 +349,206 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
             </div>
 
             <div class="mb-3">
-              <FormLabel class="flex flex-col gap-1">File Imagen</FormLabel>
+              <FormLabel className="flex flex-col gap-1" htmlFor="fileInput">
+                File Imagen
+              </FormLabel>
+
               <Input
-                key="fileInput"
+                id="fileInput"
                 type="file"
                 multiple
                 accept="image/*"
-                class="pb-2"
+                display="none"
                 onChange={(e) => setArchivo(Array.from(e.target.files))}
-                // onChange={(e) => setArchivo(e.target.files[0])}
               />
-             
+              {/* htmlFor="fileInput"  */}
+              <label onClick={onOpenImg}>
+                <Flex
+                  align="center"
+                  border="1px solid #ccc"
+                  borderRadius="md"
+                  p="6px 12px"
+                  cursor="pointer"
+                  bg="gray.100"
+                  _hover={{ bg: "gray.200" }}
+                  gap="8px"
+                >
+                  <span
+                    style={{
+                      background: "#952C00",
+                      color: "white",
+                      padding: "4px 8px",
+                      borderRadius: "6px",
+                    }}
+                  >
+                    Elegir archivos
+                  </span>
+
+                  <span className="text-gray-700">
+                    {archivo.length === 0
+                      ? `${propiedad.multimedia.length} Imágenes subidas`
+                      : `${archivo.length} archivo(s) seleccionados`}
+                  </span>
+                </Flex>
+              </label>
+              <Modal isOpen={isOpenImg} onClose={onCloseImg} size="lg">
+                <ModalOverlay />
+                <ModalContent m={"auto"}>
+                  <ModalHeader>Subir imágenes</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <label htmlFor="fileInput">
+                      <Flex
+                        align="center"
+                        border="1px solid #ccc"
+                        borderRadius="md"
+                        p="6px 12px"
+                        cursor="pointer"
+                        bg="gray.100"
+                        _hover={{ bg: "gray.200" }}
+                        gap="8px"
+                      >
+                        <span
+                          style={{
+                            background: "#952C00",
+                            color: "white",
+                            padding: "4px 8px",
+                            borderRadius: "6px",
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {/* Elegir archivos  */}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="30"
+                            height="30"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            class="icon icon-tabler icons-tabler-filled icon-tabler-circle-arrow-up"
+                          >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-4.98 3.66l-.163 .01l-.086 .016l-.142 .045l-.113 .054l-.07 .043l-.095 .071l-.058 .054l-4 4l-.083 .094a1 1 0 0 0 1.497 1.32l2.293 -2.293v5.586l.007 .117a1 1 0 0 0 1.993 -.117v-5.585l2.293 2.292l.094 .083a1 1 0 0 0 1.32 -1.497l-4 -4l-.082 -.073l-.089 -.064l-.113 -.062l-.081 -.034l-.113 -.034l-.112 -.02l-.098 -.006z" />
+                          </svg>
+                          <span className="text-white mt-2">
+                            {archivo.length === 0
+                              ? `hay ${propiedad.multimedia.length}  imágenes`
+                              : `${archivo.length} archivo(s) seleccionados`}
+                          </span>
+                        </span>
+                      </Flex>
+                    </label>
+
+                    {archivo.length > 0 && (
+                      <Flex wrap="wrap" gap={3} mt={4}>
+                        {archivo.map((img, index) => (
+                          <Box
+                            key={index}
+                            position="relative"
+                            w="80px"
+                            h="80px"
+                          >
+                            <img
+                              src={URL.createObjectURL(img)}
+                              alt="preview"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                borderRadius: "6px",
+                              }}
+                            />
+                            <Box
+                              className={`${fondo}`}
+                              position="absolute"
+                              top="2px"
+                              right="2px"
+                              cursor="pointer"
+                              bg="white"
+                              borderRadius="full"
+                              p="2px"
+                              onClick={() => removeImagenNueva(index)}
+                            >
+                              <AiOutlineClose />
+                            </Box>
+                          </Box>
+                        ))}
+                      </Flex>
+                    )}
+                    {/* {imagenes.length > 0 && (
+                      <Box mt={4}>
+                        <Flex wrap="wrap" gap={3}>
+                          {imagenes.map((img, index) => (
+                            <Box position="relative" key={index} >
+                              <img
+                                alt="preview"
+                                src={"http://localhost:8080" + img.url}
+                                className="w-[85px]" 
+                              />
+                              <Box                                
+                                position="absolute"
+                                top="0px"
+                                right="2px"
+                                cursor="pointer"
+                                bg="white"
+                                borderRadius="full"
+                                p="2px"
+                                onClick={() => removeImagenExistente(img.id)} 
+                              >
+                                <AiOutlineClose className={`${fondo}`}/>
+                              </Box>
+                            </Box>
+                          ))}
+                        </Flex>
+                      </Box>
+                    )} */}
+                    {imagenes.length > 0 && (
+                      <Box mt={4}>
+                        <Flex wrap="wrap" gap={3}>
+                          {imagenes.map((img) => (
+                            <Box position="relative" key={img.id}>
+                              <img
+                                alt="preview"
+                                src={`http://localhost:8080${img.url}`}
+                                className="w-[85px]"
+                              />
+                              <Box
+                                position="absolute"
+                                top="0px"
+                                right="2px"
+                                cursor="pointer"
+                                bg="white"
+                                borderRadius="full"
+                                p="2px"
+                                onClick={() => removeImagenExistente(img.id)}
+                              >
+                                {" "}
+                                <AiOutlineClose className={fondo} />{" "}
+                              </Box>{" "}
+                            </Box>
+                          ))}{" "}
+                        </Flex>{" "}
+                      </Box>
+                    )}
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button
+                      colorScheme="green"
+                      // onClick={handleSubmit}
+                      onClick={onCloseImg}
+                      // onClose={() => handleSubmit("")}
+                      isLoading={loading}
+                    >
+                      {" "}
+                      Listo{" "}
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
             </div>
             <FormControl mb={3}>
               <FormLabel>Características</FormLabel>
@@ -270,60 +574,126 @@ const BtnActualizar = ({ propiedad, onActualizado }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };
 
 export default BtnActualizar;
 
 
-    // if (archivo.length > 0) {
-    //   try {
-    //     await subirMultimedia(archivo, "imagen", formData.id);
+                    {/* <img src={propiedad.multimedia[0].url} /> */}
+                    {/* {propiedad.multimedia.length > 0 && (
+                      <Box mt={4}>
+                        <Flex wrap="wrap" gap={3}>                          
+                          {imagenes.map((img, index) => (
+                            <Box position="relative">
+                              <span >
+                                <img
+                                  alt="preview" 
+                                  key={index}
+                                  src={"http://localhost:8080" + img.url}
+                                  class="w-[85px] " />
+                              </span>                             
+                              <Box position="absolute"
+                              top="0px"
+                              right="2px"
+                              cursor="pointer"
+                              bg="white"
+                              borderRadius="full"
+                              p="2px" 
+                              onClick={() => removeImagenExistente(index)}                              
+                              >
+                                <AiOutlineClose />
+                              </Box>
+                            </Box>
+                          ))}
+                        </Flex>
+                      </Box>
+                    )} */}
+ {/* <Input
+                id="fileInput"
+                type="file"
+                multiple
+                accept="image/*"
+                display="none"
+                onChange={(e) => setArchivo(Array.from(e.target.files))}
+              />
+              <label htmlFor="fileInput">
+                <Flex align="center" border="1px solid #ccc" borderRadius="md" p="6px 12px" cursor="pointer"
+                  bg="gray.100" _hover={{ bg: "gray.200" }} gap="8px"
+                >
+                  <span
+                    style={{
+                      background: "#952C00", color: "white", padding: "4px 8px", borderRadius: "6px",
+                    }}
+                  >
+                    Elegir archivos
+                  </span>
+                  <span className="text-gray-700">
+                    {archivo.length === 0
+                      ? "Haz clic para seleccionar imágenes" // <-- TU TEXTO PERSONALIZADO
+                      : `${archivo.length} archivo(s) seleccionados`}
+                  </span>
+                </Flex>
+              </label>
+              {archivo.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-3">
+                  {archivo.map((img, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt="preview"
+                        className="absolute w-full h-full object-cover rounded-md border"
+                      />
+                      <span
+                        onClick={() => removeImage(index)}
+                        className="relative content-center cursor-pointer"
+                      >
+                        <AiOutlineClose color="black" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )} */}
 
-    //     toast({
-    //       title: "Imagen actualizada",
-    //       description: "La nueva imagen fue subida correctamente",
-    //       status: "success",
-    //       duration: 3000,
-    //       isClosable: true,
-    //     });
-    //   } catch (error) {
-    //     console.error("Error subiendo multimedia:", error);
-    //     toast({
-    //       title: "Error al subir imagen",
-    //       description: "La propiedad se actualizó, pero la imagen falló",
-    //       status: "error",
-    //       duration: 3000,
-    //       isClosable: true,
-    //     });
-
-     {/* <FormLabel >Adjuntar Imagen</FormLabel>
-              <Input 
-              class='rounded-sm border-4 border-indigo-500 ' 
-              type="file"  
-              onChange={(e) => setArchivo(e.target.files[0])}/> */}
-    //   }
-    // }
-
-  // const handleSubmit = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const response = await actualizarPropiedad(formData.id, formData);
-
-  //     if (response) {
-  //       // alert("✅ Propiedad actualizada correctamente");
-  //       toast({title: "Exitoso.",description: "Propiedad actualizada correctamente",status: "success",duration: 3000,isClosable: true,})
-  //       onClose();
-  //       if (onActualizado) onActualizado(); // 🔁 recarga lista
-  //     } else {
-  //       // toast({title:"No se actualizo",description: "No se hizo ningun cambio",status: "info",duration: 2000,isClosable: true})
-  //       alert("❌ No se pudo actualizar la propiedad");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error al actualizar:", error);
-  //     alert("Error al actualizar la propiedad");
-  //   } finally {
-  //     setLoading(false);
-  //   }
+              
+  // const removeImage = (indexToRemove) => {
+  //   setArchivo((prev)=> prev.filter((_, i) =>1 !==indexToRemove));
   // };
+  // const removeExistenteImage(indexToRemove) => {
+  //   const removed = imagenesExistentes[indexToRemove];
+  //   setImagenesEliminar((prev)=>[...prev,removed.id]);
+  //   setImagenesExistentes((prev)=>prev.filter((_, i) =>i !==indexToRemove));
+  // }
+ {/* <FormLabel class="flex flex-col gap-1">File Imagen</FormLabel>
+              <Input
+                key="fileInput"
+                bg={"red.100"}
+                border={"1px solid"}
+                alignContent={"center"}
+                type="file"
+                multiple
+                accept="image/*"
+                class="pb-2"
+                onChange={(e) => setArchivo(Array.from(e.target.files))}
+              />
+
+              {archivo.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-3">
+                  {archivo.map((img, index) => (
+                    <div key={index} className="w-24 h-24 relative">
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt="preview"
+                        className="absolute w-full h-full object-cover rounded-md border"
+                      />
+                      <span
+                        onClick={() => removeImage(index)}
+                        class="relative content-center cursor-pointer"
+                      >
+                        <AiOutlineClose color="black" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )} */}

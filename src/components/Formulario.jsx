@@ -1,8 +1,24 @@
-import { FormControl,Textarea, FormErrorMessage, FormHelperText, FormLabel, Input, useToast } from "@chakra-ui/react";
+import { FormControl,Textarea, FormErrorMessage, FormHelperText, FormLabel, Input, useToast, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useColorMode } from "@chakra-ui/react";
 import { crearContacto, listarContactos } from "../Services/ApiContacto";
+import { useIdioma } from "../components/IdiomaContext";
+import { textos } from "../components/traductor/textos";
 
 const Formulario = () => {
+
+  const { idioma } = useIdioma();
+
+  const { colorMode } = useColorMode();
+
+  // const fondo = colorMode === "light"
+  //   ? "bg-[#FEF7F2] text-black"
+  //   : "bg-gray-900 text-white";
+
+  const fondoSeccion = colorMode === "light"
+    ? "bg-white"
+    : "bg-gray-800";
+ 
   const [nombre, setNombre] = useState("");
   const [apellidos, setApellidos] = useState("");
   const [email, setEmail] = useState("");
@@ -48,56 +64,53 @@ const Formulario = () => {
     console.log("tipo", typeof data);
     console.log("ENVIANDO DATA:", data);
     crearContacto(data);
-
-    // const subject = "Nuevo mensaje desde el formulario";
-    // window.location.href = `mailto:saenzkenyo@gmail.com?subject=${encodeURIComponent(
-    //   subject
-    // )}&body=${encodeURIComponent(body)}`;
   };
   useEffect(() => {
     listarContactos();
   }, []);
 
   return (
-    <div class="w-full bg-white p-[25px]">
-      <p class="text-center pb-[25px] text-black font-extrabold font-mono text-[25px]">
-        FORMULARIO
+    <div className={`w-full p-[25px] ${fondoSeccion}`} >
+      <p class={`text-center pb-[25px] text-[25px] ${fondoSeccion}`}>
+        {textos[idioma].formulario.formulario}
       </p>
+      {/* text-black font-extrabold font-mono  */}
       <FormControl isRequired>
         <div className="flex flex-col gap-6 2xl:flex-row 2xl:gap-10 2xl:justify-center 2xl:items-start xl:flex-row xl:gap-10 xl:justify-center xl:items-start">
           <div className="w-full flex flex-col gap-4">
             <div className="flex flex-col md:flex-row gap-4 mb-4">
-              <div className="w-full text-black">
-                <FormLabel>Nombre</FormLabel>
+              <div className="w-full ">
+                {/* text-black */}
+                <FormLabel className={`${fondoSeccion}`}>{textos[idioma].formulario.nombre}</FormLabel>
                 <Input 
                   type=""
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
-                  placeholder="Nombre"
+                  placeholder={textos[idioma].formulario.nombre}
                 />
               </div>
-              <div className="w-full text-black">
-                <FormLabel htmlFor="apellido">Apellidos</FormLabel>
+              <div className="w-full ">
+                <FormLabel htmlFor="apellido" className={`${fondoSeccion}`}>{textos[idioma].formulario.apellido}</FormLabel>
                 <Input
                   value={apellidos}
                   onChange={(e) => setApellidos(e.target.value)}
                   id="apellido"
-                  placeholder="Apellido"
+                  placeholder={textos[idioma].formulario.apellido}
                 />
               </div>
             </div>
             <div className="flex flex-col md:flex-row gap-4 mb-4">
-              <div className="w-full text-black">
-                <FormLabel htmlFor="email">E-mail</FormLabel>
+              <div className="w-full">
+                <FormLabel htmlFor="email" className={`${fondoSeccion}`}>{textos[idioma].formulario.Email}</FormLabel>
                 <Input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   id="email"
-                  placeholder="Correo"
+                  placeholder={textos[idioma].formulario.Email}
                 />
               </div>
-              <div className="w-full text-black">
-                <FormLabel htmlFor="celular">Celular</FormLabel>
+              <div className="w-full ">
+                <FormLabel htmlFor="celular" className={`${fondoSeccion}`}>{textos[idioma].formulario.celular}</FormLabel>
                 <Input
                   value={celular}
                   type="number"
@@ -108,19 +121,19 @@ const Formulario = () => {
               </div>
             </div>
           </div>
-          <div className="w-full flex flex-col gap-3">
+          <div className={` w-full flex flex-col gap-3 ${fondoSeccion}`}>
             <Textarea 
               value={comentario}
               h={'140px'}
               onChange={(e) => setComentario(e.target.value)}
               class="p-2 w-full outline-2 outline-black outline-offset-2 rounded-sm text-black"
-              placeholder="Comentario..."
+              placeholder={textos[idioma].formulario.comentario}
             />
             <button
               onClick={handleSendEmail}
-              class="w-full h-10 !text-white !bg-black rounded-sm"
+              class="w-full h-10 !text-white !bg-black rounded-sm "
             >
-              Enviar
+              {textos[idioma].formulario.enviar}
             </button>
           </div>
         </div>

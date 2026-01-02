@@ -1,34 +1,21 @@
-import {
-  Button,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  Select,
-  Box,
+import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, FormControl, FormLabel, Input, Textarea, NumberInput, NumberInputField,  NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, Select, Box, Flex,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { crearPropiedad } from "../Services/ApiServices";
 // import { jwtDecode } from "jwt-decode";
 import { useToast } from "@chakra-ui/react";
 import { subirMultimedia } from "../hooks/useMultimedia";
+import { AiOutlineClose } from "react-icons/ai";
+import { useColorMode } from "@chakra-ui/react";
 
 const BtnAgregar = ({ onPropiedadCreada, className }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  const { colorMode } = useColorMode();
+    
+  const fondo = colorMode === "light"
+    ? "bg-[#FEF7F2] text-black"
+    : "bg-white text-black";
 
   //multimedia
   const [archivo, setArchivo] = useState([]); //-file
@@ -44,6 +31,10 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
   const [tipo, setTipo] = useState("");
   const [estado, setEstado] = useState("");
   const [servicios, setServicios] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isOpenImg, onOpen: onOpenImg, onClose: onCloseImg,} = useDisclosure();
+
+
 
   // --- Validación de campos ---
   const validarCampos = () => {
@@ -143,38 +134,6 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
       }
     }
 
-     
-
-      // if (archivo) {
-      //   try {
-      //     // await subirMultimedia(archivo, "imagen", propiedadCreada.id);
-      //     const nuevaImagen = await subirMultimedia(
-      //       archivo,
-      //       "imagen",
-      //       propiedadCreada.id
-      //     );
-      //     propiedadCreada.multimedia = [{ url: nuevaImagen.archivo.url }];
-      //     // onPropiedadCreada(propiedadCreada);
-      //     if (onPropiedadCreada) onPropiedadCreada(propiedadCreada);
-
-      //     toast({
-      //       title: "Imagen subida",
-      //       description: "La imagen se subió correctamente",
-      //       status: "success",
-      //       duration: 3000,
-      //       isClosable: true,
-      //     });
-      //   } catch (error) {
-      //     console.error("Error subiendo multimedia:", error);
-      //     toast({
-      //       title: "Error al subir imagen",
-      //       description: "La propiedad se creó, pero la imagen falló",
-      //       status: "error",
-      //       duration: 3000,
-      //       isClosable: true,
-      //     });
-      //   }
-      // }
 
       // Limpiar campos
       setTitulo("");
@@ -205,6 +164,10 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
   //  useEffect((handleGuardar) => {
   //   listarPropiedades();
   // }, []);
+  const removeImage = (indexToRemove) => {
+  setArchivo((prev) => prev.filter((_, index) => index !== indexToRemove));
+};
+
 
   return (
     <>
@@ -220,7 +183,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
           height="25"
           viewBox="0 0 28 24"
           fill="none"
-          stroke="currentColor"
+          stroke="white"
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -230,12 +193,12 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
           <path d="M12 5l0 14" />
           <path d="M5 12l14 0" />
         </svg>
-        <span className="text-[16px]"> Agregar terreno </span>
+        <span className="text-[16px] text-white"> Agregar terreno </span>
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent m={1}>
+        <ModalContent m={'auto'}>
           <ModalHeader>Crear Nuevo Terreno</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -246,8 +209,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                 value={titulo}
                 onChange={(e) => setTitulo(e.target.value)}
               />
-              <FormLabel>Descripción</FormLabel>
+              <FormLabel htmlFor="Descripcion">Descripción</FormLabel>
               <Textarea
+                id="Descripcion"
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
                 placeholder="Descripción..."
@@ -255,8 +219,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
               <div className="flex flex-row gap-4">
                 <div>
-                  <FormLabel>Precio</FormLabel>
+                  <FormLabel htmlFor="Precio">Precio</FormLabel>
                   <NumberInput
+                    id="Precio"
                     value={precio}
                     onChange={(value) => setPrecio(value)}
                   >
@@ -268,8 +233,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </NumberInput>
                 </div>
                 <div>
-                  <FormLabel>Área (m²)</FormLabel>
+                  <FormLabel htmlFor="Area">Área (m²)</FormLabel>
                   <NumberInput
+                    id="Area"
                     value={metrosCuadrados}
                     onChange={(value) => setMetrosCuadrados(value)}
                   >
@@ -281,20 +247,20 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </NumberInput>
                 </div>
               </div>
-
               <div class="flex flex-row gap-4">
                 <div>
-                  <FormLabel>Dirección</FormLabel>
+                  <FormLabel htmlFor="Direccion">Dirección</FormLabel>
                   <Input
+                    id="Direccion"
                     type="text"
                     value={direccion}
                     onChange={(e) => setDireccion(e.target.value)}
                   />
                 </div>
-
                 <div>
-                  <FormLabel>Distrito</FormLabel>
+                  <FormLabel htmlFor="Distrito">Distrito</FormLabel>
                   <Input
+                    id="Distrito"
                     type="text"
                     value={distrito}
                     onChange={(e) => setDistrito(e.target.value)}
@@ -304,8 +270,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
 
               <div class="flex flex-row gap-20">
                 <div>
-                  <FormLabel>Tipo</FormLabel>
+                  <FormLabel htmlFor="Tipo">Tipo</FormLabel>
                   <Select
+                    id="Tipo"
                     value={tipo}
                     onChange={(e) => setTipo(e.target.value)}
                   >
@@ -316,8 +283,9 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </Select>
                 </div>
                 <div>
-                  <FormLabel>Estado</FormLabel>
+                  <FormLabel htmlFor="Estado">Estado</FormLabel>
                   <Select
+                    id="Estado"
                     value={estado}
                     onChange={(e) => setEstado(e.target.value)}
                   >
@@ -328,17 +296,145 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </Select>
                 </div>
               </div>
-              <FormLabel class="flex flex-col gap-1">File Imagen</FormLabel>
-              <Input key='fileInput'
+              <FormLabel className="flex flex-col gap-1" htmlFor="fileInput">
+                File Imagen
+              </FormLabel>
+
+              <Input
+                id="fileInput"
                 type="file"
                 multiple
                 accept="image/*"
-                class="pb-2"
+                display="none"
                 onChange={(e) => setArchivo(Array.from(e.target.files))}
-                // onChange={(e) => setArchivo(e.target.files[0])}
               />
-              <FormLabel>Características</FormLabel>
+              {/* htmlFor="fileInput"  */}
+              <label onClick={onOpenImg}>
+                <Flex
+                  align="center"
+                  border="1px solid #ccc"
+                  borderRadius="md"
+                  p="6px 12px"
+                  cursor="pointer"
+                  bg="gray.100"
+                  _hover={{ bg: "gray.200" }}
+                  gap="8px"
+                >
+                  <span
+                    style={{
+                      background: "#952C00",
+                      color: "white",
+                      padding: "4px 8px",
+                      borderRadius: "6px",
+                    }}
+                  >
+                    Elegir archivos
+                  </span>
+                  <span className="text-gray-700">
+                    {archivo.length === 0
+                      ? "Haz clic para seleccionar imágenes"
+                      : `${archivo.length} archivo(s) seleccionados`}
+                  </span>
+                </Flex>
+              </label>
+              <Modal isOpen={isOpenImg} onClose={onCloseImg} size="lg">
+                <ModalOverlay />
+                <ModalContent m={'auto'}>
+                  <ModalHeader>Subir imágenes</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody >
+                  
+                    <label htmlFor="fileInput">
+                      <Flex
+                        align="center"
+                        border="1px solid #ccc"
+                        borderRadius="md"
+                        p="6px 12px"
+                        cursor="pointer"
+                        bg="gray.100"
+                        _hover={{ bg: "gray.200" }}
+                        gap="8px">
+                        <span
+                          style={{ background: "#952C00", color: "white", padding: "4px 8px",
+                          borderRadius: "6px",width:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} >
+                          {/* Elegir archivos  */}
+                          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-circle-arrow-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-4.98 3.66l-.163 .01l-.086 .016l-.142 .045l-.113 .054l-.07 .043l-.095 .071l-.058 .054l-4 4l-.083 .094a1 1 0 0 0 1.497 1.32l2.293 -2.293v5.586l.007 .117a1 1 0 0 0 1.993 -.117v-5.585l2.293 2.292l.094 .083a1 1 0 0 0 1.32 -1.497l-4 -4l-.082 -.073l-.089 -.064l-.113 -.062l-.081 -.034l-.113 -.034l-.112 -.02l-.098 -.006z" /></svg>
+                          <span className="text-white mt-2">
+                          {archivo.length === 0
+                            ? "Haz clic para seleccionar imágenes"
+                            : `${archivo.length} archivo(s) seleccionados`}
+                        </span>
+                        </span>
+                        
+                      </Flex>
+                    </label>
+
+                    {archivo.length > 0 && (
+                      <Flex wrap="wrap" gap={3} mt={4}>
+                        {archivo.map((img, index) => (
+                          <Box
+                            key={index}
+                            position="relative"
+                            w="80px"
+                            h="80px"
+                          >
+                            <img
+                              src={URL.createObjectURL(img)}
+                              alt="preview"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                borderRadius: "6px",
+                              }}
+                            />
+                            <Box
+                              position="absolute"
+                              top="2px"
+                              right="2px"
+                              cursor="pointer"
+                              bg="white"
+                              borderRadius="full"
+                              p="2px"
+                              onClick={() => removeImage(index)}
+                            >
+                              <AiOutlineClose className={`${fondo}`}/>
+                            </Box>
+                          </Box>
+                        ))}
+                      </Flex>
+                    )}
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button onClick={onCloseImg}>Listo</Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
+
+              {/* {archivo.length > 0 && (
+                <div className="flex flex-wrap gap-3 mt-3">
+                  {archivo.map((img, index) => (
+                    <div key={index} className="w-20 h-20 relative">
+                      <img
+                        src={URL.createObjectURL(img)}
+                        alt="preview"
+                        className="absolute w-full h-full object-cover rounded-md border"
+                      />
+                      <span
+                        onClick={() => removeImage(index)}
+                        className="relative content-center cursor-pointer"
+                      >
+                        <AiOutlineClose color="black" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )} */}
+
+              <FormLabel htmlFor="Caracteristicas">Características</FormLabel>
               <Input
+                id="Caracteristicas"
                 type="text"
                 value={servicios}
                 onChange={(e) => setServicios(e.target.value)}

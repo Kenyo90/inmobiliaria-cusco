@@ -1,15 +1,38 @@
-// import React from 'react'
+import { Menu, MenuButton, MenuList, MenuItem, Button, useColorMode, } from '@chakra-ui/react'
+// import { useState } from 'react';
+const Temas = () => {
+    const { colorMode, setColorMode } = useColorMode();
+    console.log("colorMode",colorMode);
+    // const [tema, setTema] = useState("claro");
+    // console.log("tema",tema);
+    //'#FEF7F2'
 
-// const Temas = () => {
-//   return (
-//     <div id='temas'  class='hidden absolute left-320 top-15 bg-white shadow-md rounded-md p-3 z-10'>
-//         <table class='flex gap-2 flex-col'>
-//             <button>Claro</button>
-//             <button>Oscuro</button>
-//         </table>
-      
-//     </div>
-//   )
-// }
+  return (
+    <>
+      <Menu shadow={'20px'} shadowColor={'black'}>
+        <MenuButton as={Button} h={'30px'} p={'5px'} className="!bg-[#FEF7F2] text-black rounded-sm cursor-pointer shadow-sm  shadow-black" >
+          <img className="w-[25px] h-[25px]" src="/public/img/color.png" alt="Cambiar tema" />
+        </MenuButton>
+        <MenuList p={1} borderRadius="md" minWidth='100px'>
+            {/* <MenuItem onClick={() => setTema("claro")}>Claro</MenuItem>
+            <MenuItem onClick={() => setTema("oscuro")}>Oscuro</MenuItem> */}
 
-// export default Temas
+          <MenuItem  borderRadius="md"  
+          backgroundColor={colorMode === "light" ? "bold" : "normal"}
+          fontWeight={colorMode === "light" ? "bold" : "normal"} 
+          onClick={() => setColorMode("light")}>
+          Claro
+          </MenuItem>
+          <MenuItem  borderRadius="md"
+           backgroundColor={colorMode === "dark" ? "bold" : "normal"}  
+          fontWeight={colorMode === "dark" ? "bold" : "normal"} 
+          onClick={() => setColorMode("dark")}>
+          Oscuro
+          </MenuItem> 
+        </MenuList>
+      </Menu>
+    </>
+  );
+}
+
+export default Temas

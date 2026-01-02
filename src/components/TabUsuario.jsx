@@ -17,37 +17,45 @@ const TabUsuario = () => {
     <main class="mx-auto px-6 py-8 bg-[#FEF7F2]">
       <div class="flex items-center justify-between mb-6 border-b border-red-200">
         <div class="text-[25px]">
-          <h1 class="text-[25px] font-bold">
+          <h1 class="text-[25px] font-bold text-black">
             Panel de Administración de Usuarios
           </h1>
           <p class="text-gray-400 text-[15px]">Gestiona todos los usuarios</p>
         </div>
-        <span>{contacto.length} Contactos encontrados</span>
+        <span class='text-black'>{contacto.length} Contactos encontrados</span>
       </div>
       <section >
         {/* class="!border-1 !border-black !rounded-lg" */}
         <SimpleGrid spacing={4} templateColumns="repeat(auto-fill, minmax(250px, 2fr))" >
           {contacto.map((contac, index) => (
             /*Array.isArray(contacto) && */ 
-          <Card key={index} boxShadow={'2px 2px 2px 2px rgb(0,0,0,0.5)'}>
-            <CardHeader pb="5px">
-              <Heading size="md" pb="5px" fontSize={'18px'}> {contac.nombre} {contac.apellidos}</Heading>
-              <Text fontSize={'14px'} color={'silver'} fontWeight={'600'}>{contac.email}</Text>
+          <Card key={index} boxShadow={'2px 2px 2px 2px rgb(0,0,0,0.5)'} p={'5px'} >
+            <CardHeader p={'5px'} >
+              <Heading as='b' size="md" pb="5px" fontSize={'18px'} class='flex justify-center '> 
+                {contac.nombre} {contac.apellidos}
+              </Heading>
+              <Text fontSize={'10px'} fontWeight={'600'} 
+              class='flex justify-center text-gray-400 '>
+                {contac.email}
+              </Text>
             </CardHeader>
-            <CardBody pt={'5px'} pb={'5px'}>
-              <Text fontSize={'14px'}>
+            <CardBody px={'15px'} class='flex justify-center'>
+              <Text fontSize={'14px'} px={'10px'} class='flex justify-center py-2'>
                 {contac.comentario}
               </Text>
             </CardBody>
-            <CardFooter pt={'5px'}>
-              <div class='w-full'>
+            <CardFooter pt={'2px'} pb={'2px'} class='flex justify-center'>
+              <div class='w-[70%]'>
                 <a href={`https://wa.me/+51${contac.celular}?text=Hola%20quiero%20contactame%20contigo`} 
                 target="_blank" class='w-full'>
-                <Button class='w-full flex justify-center !bg-[#EDF2F7] !py-1 !rounded-sm'>
+                <Button class='w-full flex justify-center gap-5 !bg-[#EDF2F7] !py-1 !rounded-sm'>
                   <img class="w-5 m-1 transition-all duration-200"
                     src="../../public/img/whatsapp.png" alt="" />
-                  <span class='font-semibold'>+51 {contac.celular}</span> 
+                  <span class='font-semibold text-black'>+51 {contac.celular}</span> 
                 </Button>
+                <span class='flex justify-center py-2 text-sm text-gray-500' >
+                  {new Date(contac.fechaRegistro).toLocaleString()}
+                </span>
               </a> 
               </div>    
             </CardFooter>

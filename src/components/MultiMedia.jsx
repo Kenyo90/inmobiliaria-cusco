@@ -1,15 +1,15 @@
 // import Terreno from "./Terreno"
 
-const MultiMedia = () => {
+// const MultiMedia = () => {
    
-  return (
-    <div>
-        propiedades.map
-        <h1>Hola</h1>
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae dicta harum fugit ab placeat, amet provident alias</p>
+//   return (
+//     <div>
+//         propiedades.map
+//         <h1>Hola</h1>
+//         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae dicta harum fugit ab placeat, amet provident alias</p>
 
-    </div>
-  )
-}
+//     </div>
+//   )
+// }
 
-export default MultiMedia
+// export default MultiMedia
