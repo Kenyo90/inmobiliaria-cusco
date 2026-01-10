@@ -10,7 +10,7 @@ const Temas = () => {
   return (
     <>
       <Menu shadow={'20px'} shadowColor={'black'}>
-        <MenuButton as={Button} h={'30px'} p={'5px'} className="!bg-[#FEF7F2] text-black rounded-sm cursor-pointer shadow-sm  shadow-black" >
+        <MenuButton as={Button} h={'40px'} p={'5px'} className="!bg-[#FEF7F2] text-black rounded-sm cursor-pointer shadow-sm  shadow-black" >
           <img className="w-[25px] h-[25px]" src="/public/img/color.png" alt="Cambiar tema" />
         </MenuButton>
         <MenuList p={1} borderRadius="md" minWidth='100px'>

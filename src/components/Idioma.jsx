@@ -46,7 +46,7 @@ const Idioma = () => {
       <Menu shadow={"20px"} shadowColor={"black"} className="w-[10px] p-[10px]">
         <MenuButton
           as={Button}
-          h={"30px"}
+          h={"40px"}
           p={"5px"}
           className="!bg-[#FEF7F2] h-[32px] text-black rounded-sm cursor-pointer shadow-sm shadow-black"
         >

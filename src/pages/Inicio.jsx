@@ -12,13 +12,7 @@ import { textos } from "../components/traductor/textos";
 
 const Inicio = () => {
   const { idioma } = useIdioma();
-
-  // const textos = {
-  //   en: { buscar: "Search by location..." },
-  //   qu: { buscar: "Maskay llaqtapi..." },
-  //   es: { buscar: "Buscar por ubicación..." },
-  // };
-
+  
   const [propiedades, setPropiedades] = useState([]);
   const { filteredPropiedades, filters, updateFilter } =
     usePropiedadesFilter(propiedades);
@@ -46,31 +40,24 @@ const Inicio = () => {
 
   return (
     <div
-      className={`m-0 box-border w-full transition-colors duration-300 ${fondoSeccion}`}
-    >
+      className={`m-0 box-border w-full overflow-x-hidden transition-colors duration-300 ${fondoSeccion}`} >
+        {/* overflow-x-hidden */}
       <header className={`flex justify-center ${fondoSeccion}`}>
         <Navbar />
       </header>
 
       <main className={`flex justify-center p-2 pt-3 ${fondoSeccion}`}>
         <section
-          class={`relative py-[32px] max-w-[1468px] h-[100%] bg-[#FEF7F2] my-auto flex justify-center flex-col xl:px-[64px] xl:mx-[20px] lg:px-[16px] lg:mx-[20px] 2xl:w-full 2xl:justify-center md:px-[35px] md:mx-[35px] md:items-center sm:px-[35px] sm:mx-[35px] 2xl:mx-auto ${fondo}`}
-          // className={`relative py-8 max-w-[1468px] w-full rounded-md ${fondoSeccion}`}
-        >
-          <div
-            class={`relative max-w-[100%] w-[400px] mx-auto max-h-[48px] flex justify-center py-1 mb-10 items-center 2xl:px-0  xl:w-[100%] xl:px-0 md:px-0 md:w-[100%] lg:w-full bg-[#FEF7F2] lg:px-0 2xl:w-full  sm:w-full ${fondo}`}
-          >
-            {/* className="relative w-full max-w-[400px] mx-auto mb-10" class='w-full px-5 pb-3' */}
-            <input
-              type="text"
+          class={`relative py-[32px] max-w-[1468px] h-[100%] bg-[#FEF7F2] my-auto flex justify-center flex-col xl:px-[64px] xl:mx-[20px] lg:px-[16px] lg:mx-[20px] 2xl:w-full 2xl:justify-center md:px-[35px] md:mx-[35px] md:items-center sm:px-[35px] sm:mx-[35px] 2xl:mx-auto ${fondo}`} >
+          <div class={`relative max-w-[100%] mx-auto max-h-[48px] flex justify-center py-1 mb-10 items-center 2xl:px-0  xl:w-[100%] xl:px-0 md:px-0 md:w-[100%] lg:w-full bg-[#FEF7F2] lg:px-0 2xl:w-full sm:w-full sm:px-[0px] ${fondo} w-full px-[15px]`}>
+            {/* w-[400px] */}
+            <input type="text"
               // placeholder="Buscar por ubicación..."
-              placeholder={textos[idioma].inicio.buscar}
-              value={filters.busqueda}
+              placeholder={textos[idioma].inicio.buscar} value={filters.busqueda}
               onChange={(e) => updateFilter("busqueda", e.target.value)}
-              // className="w-full rounded-md px-4 h-10 bg-transparent border"
-              class={`file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-1 file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-md file:font-medium disabled:pointer-events-none  disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-[#8a3a13] focus-visible:ring-[#8a3a13]/50 focus-visible:ring-[5px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive !pl-5 !h-10 text-base ${fondo}`}
-            />
-
+              className={`lg:w-full pb-2 file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-1 file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-md file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-[#8a3a13] focus-visible:ring-[#8a3a13]/50 focus-visible:ring-[5px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive !pl-3 !h-10 text-base  ${fondo}`}
+              />
+              
             {hayFiltrosBusqueda && (
               <button
                 onClick={() => updateFilter("busqueda", "")}
@@ -98,7 +85,8 @@ const Inicio = () => {
             target="_blank"
           >
             <img
-              class="w-13 hover:w-15 transition-all duration-200"
+              // class="w-13 hover:w-15 transition-all duration-200"
+              className="w-12 sm:w-14 md:w-16 transition-all duration-200"
               src="../../public/img/whatsapp.png"
               alt=""
             />

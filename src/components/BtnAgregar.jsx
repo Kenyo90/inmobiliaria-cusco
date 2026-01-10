@@ -337,7 +337,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </span>
                 </Flex>
               </label>
-              <Modal isOpen={isOpenImg} onClose={onCloseImg} size="lg">
+              <Modal isOpen={isOpenImg} onClose={onCloseImg}  size="lg">
                 <ModalOverlay />
                 <ModalContent m={'auto'}>
                   <ModalHeader>Subir imágenes</ModalHeader>
@@ -378,9 +378,7 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                             w="80px"
                             h="80px"
                           >
-                            <img
-                              src={URL.createObjectURL(img)}
-                              alt="preview"
+                            <img src={URL.createObjectURL(img)} alt="preview"
                               style={{
                                 width: "100%",
                                 height: "100%",
@@ -411,27 +409,6 @@ const BtnAgregar = ({ onPropiedadCreada, className }) => {
                   </ModalFooter>
                 </ModalContent>
               </Modal>
-
-              {/* {archivo.length > 0 && (
-                <div className="flex flex-wrap gap-3 mt-3">
-                  {archivo.map((img, index) => (
-                    <div key={index} className="w-20 h-20 relative">
-                      <img
-                        src={URL.createObjectURL(img)}
-                        alt="preview"
-                        className="absolute w-full h-full object-cover rounded-md border"
-                      />
-                      <span
-                        onClick={() => removeImage(index)}
-                        className="relative content-center cursor-pointer"
-                      >
-                        <AiOutlineClose color="black" />
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )} */}
-
               <FormLabel htmlFor="Caracteristicas">Características</FormLabel>
               <Input
                 id="Caracteristicas"

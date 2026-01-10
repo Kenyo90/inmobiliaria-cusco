@@ -56,24 +56,23 @@ const BtnSalir = () => {
 
   return (
     <>
-    <div class={`flex justify-center w-full h-[76px] px-10 rounded-md shadow-md 2xl:px-15 ${fondo}`}>
-      <div class={`flex justify-between h-[76px] items-center w-[1468px] gap-10 p-[16px] ${fondo}`}>
+    <div class={`flex justify-center w-full h-[76px] px-[30px] rounded-md shadow-md 2xl:px-15 ${fondo}`}>
+      <div class={`flex justify-between h-[76px] items-center w-[1468px] gap-10 p-[0px] ${fondo}`}>
         <div class="flex gap-2 h-15  text-left w-6x1 justify-between content-center items-center">
           <img class='w-15' src="/public/img/logo_sinfondo.png" alt="logo" />
-          <div>
+          {/* <div>
             <h1 class='text-[20px]'>Terrenos Cusco</h1>
             <p class='text-[12px]'>Terrenos en el Corazón de los Andes</p>
-          </div>
+          </div> */}
         </div>
-        <div class="flex gap-3 h-15 text-center mx-5 items-center">
+        <div class="flex gap-3 h-15 text-center mx-0 items-center">
           <button  onClick={handleInicio} class="!bg-[#FEF7F2] !text-[#0e0d0d] !p-1 rounded-sm cursor-pointer shadow-sm shadow-black">
             Inicio
           </button>
           <Temas/>
-          <buttton  onClick={handleLogout} class="bg-[#FEF7F2] text-black p-2 py-1 rounded-sm cursor-pointer shadow-sm shadow-black">
-            <img class='w-5' src="/public/img/ArrowRightStartOnRectangle.svg" alt="salir" />
-          </buttton>
-          
+          <button  onClick={handleLogout} class="!bg-[#FEF7F2] w-[40px]  text-black p-2 py-1 rounded-sm cursor-pointer shadow-sm shadow-black ">
+            <img class='w-full p-[5px] '  src="/public/img/ArrowRightStartOnRectangle.svg" alt="salir" />
+          </button>        
         </div>
       </div>
     </div>
