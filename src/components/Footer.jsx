@@ -53,7 +53,7 @@ const Footer = () => {
             {textos[idioma].footer.formulario}
           </h3>
           <p>
-            {textos[idioma].footer.telefono}: <p>+51 919 527 727</p>
+            {textos[idioma].footer.telefono}: <p>+51 984 010 709</p>
           </p>
           <p>
             {textos[idioma].footer.ubicacion}:{" "}
@@ -67,28 +67,7 @@ const Footer = () => {
           <div class="flex  gap-2  justify-start">
             <a
               class="p-2 cursor-pointer"
-              href="https://www.facebook.com/Ayllulagunahuaypo"
-              target="_blank"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-facebook hover:stroke-blue-900"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
-              </svg>
-            </a>
-            <a
-              class="p-2 cursor-pointer"
-              href="https://www.instagram.com/ayllulagunahuaypo/?igsh=MWw5a2oycThoczFwag%3D%3D#"
+              href="https://www.instagram.com/sandra_quintanilla.1?igsh=YjZoZWg1dHhlNDZq"
               target="_blank"
             >
               <svg
@@ -112,7 +91,7 @@ const Footer = () => {
             {/* <a class='p-2 cursor-pointer' href="" target="_blank"><BsTwitterX/></a> */}
             <a
               class="p-2 cursor-pointer"
-              href="https://www.tiktok.com/@cusicoyllur_chinchero?_r=1&_t=ZS-91p9gJyLzMI"
+              href="https://www.tiktok.com/@sandraquintanilla.1?is_from_webapp=1&sender_device=pc"
               target="_blank"
             >
               <svg
@@ -133,7 +112,7 @@ const Footer = () => {
             </a>
             <a
               class="p-2 cursor-pointer"
-              href="https://youtube.com/watch?v=qWZNLsqJZTs&feature=shared"
+              href="https://youtube.com/@sandritaquintanilla?si=atLhriYbr8Mjuzk-"
               target="_blank"
             >
               <svg
