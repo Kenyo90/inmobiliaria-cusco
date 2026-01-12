@@ -2,40 +2,46 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, Box, } from "@chakra-ui/react";
+import {
+  Button,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Box,
+} from "@chakra-ui/react";
 import Carousel from "./Carousel";
 import { useColorMode } from "@chakra-ui/react";
 import { useIdioma } from "../components/IdiomaContext";
 import { textos } from "../components/traductor/textos";
- const API_URL = "http://localhost:8080";
- const ENV=import.meta.env.VITE_API_URL 
+const API_URL = "http://localhost:8080";
+const ENV = import.meta.env.VITE_API_URL;
 
-const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
-
+const Terreno = ({ filteredPropiedades, filters, updateFilter }) => {
   const { idioma } = useIdioma();
 
   const { colorMode } = useColorMode();
 
-  const fondo = colorMode === "light"
-    ? "bg-[#FEF7F2] text-black"
-    : "bg-gray-900 text-white";
+  const fondo =
+    colorMode === "light"
+      ? "bg-[#FEF7F2] text-black"
+      : "bg-gray-900 text-white";
 
-  const fondoSeccion = colorMode === "light"
-    ? "bg-white"
-    : "bg-gray-800";
-  
-  const fondoPrecio = colorMode === "light"
-    ? "text-amber-950"
-    : "bg-gray-800";
-  
+  const fondoSeccion = colorMode === "light" ? "bg-white" : "bg-gray-800";
+
+  const fondoPrecio = colorMode === "light" ? "text-amber-950" : "bg-gray-800";
+
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] = React.useState('inside')
-  console.log(setScrollBehavior)
+  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
+  console.log(setScrollBehavior);
 
-  const btnRef = React.useRef(null)
+  const btnRef = React.useRef(null);
 
   const [propiedades, setPropiedades] = useState([]);
-  console.log(propiedades)
+  console.log(propiedades);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(50);
@@ -44,8 +50,9 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
 
   console.log(setSize, setDirection);
 
-  const hayFiltrosActivos = Object.entries(filters).some(([key, value]) => key !== 'busqueda' && value !== "");
-
+  const hayFiltrosActivos = Object.entries(filters).some(
+    ([key, value]) => key !== "busqueda" && value !== ""
+  );
 
   const limpiarFiltros = () => {
     updateFilter("tipo", "");
@@ -91,9 +98,14 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
 
   return (
     <div
-      class={`grid gap-6 bg-[#FEF7F2] 2xl:w-full 2xl:grid-cols-[280px_1fr] 2xl:gap-6 xl:grid-cols-[280px_1fr] xl:px-0 lg:px-0  2xl:px-0 lg:grid-cols-[280px_1fr] md:grid-cols-1 sm:grid-cols-1  lg:w-full lg:px-auto justify-center items-center md:w-full ${fondo}`} >
-      <section className={`sticky top-4 mb-[45px] self-start w-full h-fit bg-white rounded-xl shadow-md z-20 ${fondo}`} >
-        <div className={`w-full md:w-[100%] sm:w-[100%] xs:w-[100%] 2xl:w-[280px] lg:w-[280px] rounded-lg border p-[16px] shadow-sm hover:shadow-lg transition-shadow flex flex-col gap-4 ${fondoSeccion} overflow-hidden`} >
+      class={`grid gap-6 bg-[#FEF7F2] 2xl:w-full 2xl:grid-cols-[280px_1fr] 2xl:gap-6 xl:grid-cols-[280px_1fr] xl:px-0 lg:px-0  2xl:px-0 lg:grid-cols-[280px_1fr] md:grid-cols-1 sm:grid-cols-1  lg:w-full lg:px-auto justify-center items-center md:w-full ${fondo}`}
+    >
+      <section
+        className={`sticky top-4 mb-[45px] self-start w-full h-fit bg-white rounded-xl shadow-md z-20 ${fondo}`}
+      >
+        <div
+          className={`w-full md:w-[100%] sm:w-[100%] xs:w-[100%] 2xl:w-[280px] lg:w-[280px] rounded-lg border p-[16px] shadow-sm hover:shadow-lg transition-shadow flex flex-col gap-4 ${fondoSeccion} overflow-hidden`}
+        >
           <div className="pb-4 text-lg flex justify-between items-center flex-row">
             <p className="font-semibold text-[22px]">
               {textos[idioma].Terreno.filtros.filtro}
@@ -248,13 +260,19 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
         </div>
       </section>
 
-      <section id="terrenosUp" class="sm:px-0 xl:gap-6 2xl:gap-5 md:px-0 2xl:w-full " >
+      <section
+        id="terrenosUp"
+        class="sm:px-0 xl:gap-6 2xl:gap-5 md:px-0 2xl:w-full "
+      >
         <p class="w-full pb-5 px-2 ">
           {filteredPropiedades.length} {textos[idioma].Terreno.lista}
         </p>
         <div className="w-full pb-5">
-          {filteredPropiedades.length > 0 ? (           
-            <div  ref={btnRef} className="lg:sticky grid w-full h-fit justify-center sm:grid-cols-1 md:grid-cols-2 xl:gap-6 gap-6 2xl:grid-cols-3 xl:grid-cols-3 2xl:gap-6 lg:grid-cols-2 lg:gap-6 md:gap-6 2xl:w-full lg:w-full md:justify-center md:items-center sm:justify-center sm:items-center md:w-full" >
+          {filteredPropiedades.length > 0 ? (
+            <div
+              ref={btnRef}
+              className="lg:sticky grid w-full h-fit justify-center sm:grid-cols-1 md:grid-cols-2 xl:gap-6 gap-6 2xl:grid-cols-3 xl:grid-cols-3 2xl:gap-6 lg:grid-cols-2 lg:gap-6 md:gap-6 2xl:w-full lg:w-full md:justify-center md:items-center sm:justify-center sm:items-center md:w-full"
+            >
               {/* lg:sticky w-full h-fit onClick={onOpen} */}
               {filteredPropiedades.map((prop) => {
                 const urlImagen = prop.multimedia?.[0]?.url
@@ -289,11 +307,12 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                             </p>
                           )}
                         </span>
-                        <img class="object-cover group-hover:scale-105 transition-transform duration-300 z-0 
+                        <img
+                          class="object-cover group-hover:scale-105 transition-transform duration-300 z-0 
                        inset-0 text-transparent h-[fit] w-[fit] mx-auto 2xl:h-[100%] 2xl:w-[100%] lg:h-[100%] lg:w-[100%] xl:h-[100%] xl:w-[100%] md:h-[100%] md:w-[100%]"
-                      //   class="object-cover group-hover:scale-105 transition-transform duration-300 z-0 
-                      //  inset-0 text-transparent h-[fit] w-[fit] mx-auto 2xl:h-[100%] 2xl:w-[100%] lg:h-[100%] lg:w-[100%] xl:h-[100%] xl:w-[100%] md:h-fit md:w-fit "
-                      // sm:w-full sm:h-full
+                          //   class="object-cover group-hover:scale-105 transition-transform duration-300 z-0
+                          //  inset-0 text-transparent h-[fit] w-[fit] mx-auto 2xl:h-[100%] 2xl:w-[100%] lg:h-[100%] lg:w-[100%] xl:h-[100%] xl:w-[100%] md:h-fit md:w-fit "
+                          // sm:w-full sm:h-full
                           src={urlImagen || prop.multimedia?.[0]?.url}
                           alt={prop.titulo}
                         />
@@ -384,23 +403,38 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
           )}
         </div>
 
-        <Modal onClose={onClose} isOpen={isOpen}
+        <Modal
+          onClose={onClose}
+          isOpen={isOpen}
           motionPreset="slideInBottom"
           class={`w-[300px] h-[300px] p-[20px] max-sm:w-[90%] sm:h-[290px] lg:w-[300px] md:w-[250px] 2xl:w-[90%] ${fondoSeccion}`}
-          finalFocusRef={btnRef} scrollBehavior={scrollBehavior} isCentered >
+          finalFocusRef={btnRef}
+          scrollBehavior={scrollBehavior}
+          isCentered
+        >
           <ModalOverlay />
-          <ModalContent
-            class={`w-fit h-fit max-sm:max-w-[90%] 2xl:w-[850px] lg:w-[650px] md:w-[550px] sm:w-fit`}>
-            <ModalBody pr={0} pl={0} pt={0} pb={0}  className={`${fondoSeccion}`}>
+          <ModalContent class=" 2xl:w-[850px] lg:w-[850px] md:w-[650px] sm:w-[500px] max-sm:w-[360px]">
+            <ModalBody
+              pr={0}
+              pl={0}
+              pt={0}
+              pb={0}
+              className={`${fondoSeccion}`}
+            >
               {selectedProp && (
                 <div
                   key={selectedProp.id}
-                  class={`h-[523px] w-[460px] max-sm:max-w-[300px] xl:w-full md:w-full bg-card text-card-foreground flex flex-col cursor-pointer `} >
-                  <div class={`flex justify-between items-center px-[0px] `} >
-                    <ModalHeader class={`py-[15px] !px-[10px] text-[24px] `} >
+                  class="h-[523px] max-sm:max-w-[360px] lg:w-[850px] sm:w-[500px] xl:w-full md:w-full bg-card text-card-foreground flex flex-col cursor-pointer sm:w-full"
+                >
+                  <div
+                    class={`flex justify-between items-center px-[10px] w-full`}
+                  >
+                    <ModalHeader
+                      class={`py-[10px] !px-[10px] text-[20px] max-sm:text-[13px] w-fit text-bold font-semibold`}
+                    >
                       {selectedProp.titulo}
                     </ModalHeader>
-                    <ModalCloseButton class="w-[30px] p-[10px]" />
+                    <ModalCloseButton class="w-[2em] h-[2em]" />
                   </div>
                   <div class={`flex gap-6 flex-col `}>
                     <div class={`h-full bg-muted `}>
@@ -411,7 +445,8 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                           ) || [];
                         return (
                           <Carousel
-                            images={ imagenesProp.length > 0
+                            images={
+                              imagenesProp.length > 0
                                 ? imagenesProp
                                 : ["/img/fondo.png"]
                             }
@@ -461,9 +496,23 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                         </div>
                         <div class="flex gap-2 items-start">
                           <p class="text-[20px] items-start text-amber-950">
-                            <svg xmlns="http://www.w3.org/2000/svg"
-                              width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-diagonal" >
-                              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-diagonal"
+                            >
+                              <path
+                                stroke="none"
+                                d="M0 0h24v24H0z"
+                                fill="none"
+                              />
                               <path d="M16 4l4 0l0 4" />
                               <path d="M14 10l6 -6" />
                               <path d="M8 20l-4 0l0 -4" />
@@ -518,8 +567,14 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
                       </footer>
                     </div>
                     <div class="pt-[10px] pb-[5px] px-[16px]">
-                      <Button onClick={onClose} colorScheme="red" variant="outline" w={"100%"} mt={"10px"} 
-                      mb={"10px"} >
+                      <Button
+                        onClick={onClose}
+                        colorScheme="red"
+                        variant="outline"
+                        w={"100%"}
+                        mt={"10px"}
+                        mb={"10px"}
+                      >
                         {textos[idioma].Modal.cerrar}
                       </Button>
                     </div>
@@ -536,7 +591,9 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
               setPage((p) => {
                 const newPage = Math.max(p - 1, 0);
                 window.scrollTo({ top: 70, behavior: "instant" });
-                return newPage; }); }}
+                return newPage;
+              });
+            }}
             disabled={page === 0}
             class="px-3 py-1 border rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
           >
@@ -566,7 +623,8 @@ const Terreno = ({filteredPropiedades,filters, updateFilter}) => {
 
 export default Terreno;
 
-{/* <section className={` lg:sticky  mb-[45px] self-start top-4 w-full  h-fit bg-white rounded-xl shadow-md ${fondo}`}>
+{
+  /* <section className={` lg:sticky  mb-[45px] self-start top-4 w-full  h-fit bg-white rounded-xl shadow-md ${fondo}`}>
   
         <div className={`w-full md:w-[100%] sm:w-[100%] xs:w-[100%] 2xl:w-[280px] lg:w-[280px] rounded-lg border p-[16px] shadow-sm overflow-hidden hover:shadow-lg transition-shadow flex flex-col gap-4 ${fondoSeccion}`}>
           <div class="pb-4 text-lg flex justify-between items-center flex-row">
@@ -716,4 +774,5 @@ export default Terreno;
             </div>
           </div>
         </div>
-      </section> */}
+      </section> */
+}
