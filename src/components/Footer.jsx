@@ -28,7 +28,7 @@ const Footer = () => {
   return (
     <footer class="w-full">
       <div
-        class={`mt-10 flex flex-col pl-10 justify-between py-6  gap-5 2xl:flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row md:p-5 sm:flex-col sm:px-[16px] sm:py-[48px] text-[14px] ${fondoFooter}`}
+        class={`mt-5 flex flex-col pl-10 justify-between py-6  gap-5 2xl:flex 2xl:flex-row xl:flex-row lg:flex-row md:flex-row md:p-5 sm:flex-col sm:px-[16px] sm:py-[48px] text-[14px] ${fondoFooter}`}
       >
         {/* bg-orange-300 */}
         <div>
@@ -44,7 +44,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               class="px-6 py-2 !text-white !bg-black rounded-md shadow-md hover:bg-gray-800 transition duration-300 ease-in-out text-center font-semibold"
             >
-              Agendar Reunión
+              Agendar Asesoría 
             </a>
           </div>
         </div>

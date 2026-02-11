@@ -22,6 +22,11 @@ const Navbar = () => {
     navigate("Crud");
   };
 
+  const principal = () => {
+    navigate("/");
+  };
+
+
   return (
     // display={'flex'} justifyContent={'center'} flexDir={'row'} bg-white
     <div
@@ -34,8 +39,8 @@ const Navbar = () => {
         <div class="flex gap-1 h-[30px] flex-row text-left w-[70px] justify-between content-center items-center">
           {/* <img class="w-[35px] h-[35px]" src="/public/img/Home.svg" alt="" /> */}
           <img
-            className="w-full h-full"
-            //src="/public/img/logo_fondo_blanco.png"
+            className="w-full h-full cursor-pointer"
+            onClick={principal}
             src={`${logo}`}
             alt="Logo"
           />
